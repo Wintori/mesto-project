@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Место</title>
+    <link rel="stylesheet" href="./pages/index.css">
+</head>
+
+<body>
+    <div class="page">
+
+        <header class="header">
+
+            <img class="header__logo" src="./images/header-logo.svg" alt="Логотип">
+
+        </header>
+
+
+
+        <main class="content">
+
+            <section class="profile">
+
+                <img class="profile__avatar" src="./images/avatar.png" alt="Аватарка">
+
+                <div class="profile__info">
+                    <div class="profile__name-section">
+                        <h1 class="profile__name">Жак-Ив Кусто</h1>
+                        <button class="button button__edit" type="button"></button>
+                    </div>
+                    <p class="profile__status">Исследователь океана</p>
+                </div>
+
+                <button class="button button__add" type="button"></button>
+
+            </section>
+
+            <section class="posts">
+                <ul class="posts__list">
+
+                    <li class="posts__post">
+
+                        <img src="./images/karachaevsk.png" class="posts__image" alt="Карачаевск">
+
+                        <div class="posts__footer">
+
+                            <h3 class="posts__title">Карачаевск</h3>
+
+                            <button class="button button__like" type="button"></button>
+
+                        </div>
+
+                    </li>
+
+                    <li class="posts__post">
+
+                        <img src="./images/photo__elbrus.png" class="posts__image" alt="Гора Эльбрус">
+
+                        <div class="posts__footer">
+
+                            <h3 class="posts__title">Гора Эльбрус</h3>
+
+                            <button class="button button__like" type="button"></button>
+
+                        </div>
+
+                    </li>
+
+                    <li class="posts__post">
+
+                        <img src="./images/photo__dombai.png" class="posts__image" alt="Домбай">
+
+                        <div class="posts__footer">
+
+                            <h3 class="posts__title">Домбай</h3>
+
+                            <button class="button button__like" type="button"></button>
+
+                        </div>
+
+                    </li>
+
+                    <li class="posts__post">
+
+                        <img src="./images/photo__elbrus.png" class="posts__image" alt="Гора Эльбрус">
+
+                        <div class="posts__footer">
+
+                            <h3 class="posts__title">Гора Эльбрус</h3>
+
+                            <button class="button button__like" type="button"></button>
+
+                        </div>
+
+                    </li>
+
+                    <li class="posts__post">
+
+                        <img src="./images/photo__dombai.png" class="posts__image" alt="Домбай">
+
+                        <div class="posts__footer">
+
+                            <h3 class="posts__title">Домбай</h3>
+
+                            <button class="button button__like" type="button"></button>
+
+                        </div>
+
+                    </li>
+
+                    <li class="posts__post">
+
+                        <img src="./images/karachaevsk.png" class="posts__image" alt="Карачаево-Черкессия">
+
+                        <div class="posts__footer">
+
+                            <h3 class="posts__title">Карачаево-Черкессия</h3>
+
+                            <button class="button button__like" type="button"></button>
+
+                        </div>
+
+                    </li>
+
+                </ul>
+            </section>
+        </main>
+
+        <footer class="footer">
+
+            <p class="footer__copyright">&copy; 2022. Шашурин Егор</p>
+
+        </footer>
+
+
+        <section class="popup">
+            <div class="popup__container">
+                <button class="button button__close" aria-label="Закрыть"></button>
+                <h2 class="popup__title">Редактировать профиль</h2>
+                <form class="popup__person-information">
+                    <input class="popup__input" type="text" placeholder="Имя" name="nameInput" value="Жак-Ив Кусто">
+                    <input class="popup__input" type="text" placeholder="О себе" name="aboutInput"
+                        value="Исследователь океана">
+                </form>
+                <button class="button button__save" type="submit">Сохранить</button>
+            </div>
+
+
+        </section>
+
+    </div>
+</body>
+
+</html>
