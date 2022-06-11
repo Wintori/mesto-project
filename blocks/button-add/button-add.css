@@ -1,20 +1,20 @@
-.button__add {
-    background-image: url("../../../images/button-add.svg");
+.button-add {
+    background-image: url("../../images/button-add.svg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: 22px;
     border: 2px solid #FFFFFF;
     min-height: 50px;
-    background-color: #000000;
     transition: opacity .2s linear;
+    border-radius: 2px;
 }
 
-.button__add:hover {
+.button-add:hover {
     opacity: 0.6;
 }
 
-@media screen and (max-width: 660px) {
-    .button__add {
+@media screen and (max-width: 683px) {
+    .button-add {
         width: 282px;
         background-size: 16px;
     }

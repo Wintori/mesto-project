@@ -1,5 +1,5 @@
-.button__close {
-    background-image: url(../../../images/button-close.svg);
+.button-close {
+    background-image: url(../../images/button-close.svg);
     background-size: cover;
     background-repeat: no-repeat;
     position: absolute;
@@ -10,12 +10,12 @@
     transition: opacity .2s linear;
 }
 
-.button__close:hover {
+.button-close:hover {
     opacity: 0.6;
 }
 
 @media screen and (max-width: 600px) {
-    .button__close {
+    .button-close {
         width: 20px;
         height: 20px;
         top: -37px;

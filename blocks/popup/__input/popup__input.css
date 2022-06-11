@@ -13,10 +13,3 @@
 .popup__input:not(:first-child) {
     margin-top: 30px;
 }
-
-
-@media screen and (max-width: 600px) {
-    .popup__input {
-        line-height: 17px;
-    }
-}
