@@ -7,3 +7,7 @@
     line-height: 0;
     display: block;
 }
+
+.posts__image:hover {
+    cursor: pointer;
+}

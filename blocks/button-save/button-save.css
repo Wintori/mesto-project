@@ -9,6 +9,7 @@
     border-radius: 2px;
     width: 100%;
     transition: opacity .2s linear;
+    margin-top: 48px;
 }
 
 .button-save:hover {
