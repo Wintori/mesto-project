@@ -6,23 +6,22 @@ const popupAddPost = document.querySelector('#popup__addPost-container').parentN
 const popupEditor = document.querySelector('#popup__profileEdit-container').parentNode;
 const popupZoom = document.querySelector('#popup__imageZoom-container').parentNode;
 //----------(поиск кнопок открытия\закрытия попапов)--------------
-const openAddWindow = profile.querySelector('.button-add');
-const closeAddWindow = popupAddPost.querySelector('.button-close');
+const popupAddPostOpenButton = profile.querySelector('.button-add');
+const popupAddPostCloseButton = popupAddPost.querySelector('.button-close');
 
-const openProfileEditor = profile.querySelector('.button-edit');
-const closeProfileEditor = popupEditor.querySelector('.button-close');
+const popupEditProfileOpenButton = profile.querySelector('.button-edit');
+const popupEditProfileCloseButton = popupEditor.querySelector('.button-close');
 
-const closeZoomWindow = popupZoom.querySelector('.button-close');
+const popupZoomPostCloseButton = popupZoom.querySelector('.button-close');
 //------------------------(добавление события на кнопки закрытия\открытия)-------------------------------
-openAddWindow.addEventListener('click', openPostPopup);
-closeAddWindow.addEventListener('click', () => popupAddPost.classList.remove('popup_opened'));
+popupAddPostOpenButton.addEventListener('click', openPostPopup);
+popupAddPostCloseButton.addEventListener('click', () => popupAddPost.classList.remove('popup_opened'));
 
-openProfileEditor.addEventListener('click', openEditorPopup);
-closeProfileEditor.addEventListener('click', () => popupEditor.classList.remove('popup_opened'));
+popupEditProfileOpenButton.addEventListener('click', openEditorPopup);
+popupEditProfileCloseButton.addEventListener('click', () => popupEditor.classList.remove('popup_opened'));
 
-closeZoomWindow.addEventListener('click', () => popupZoom.classList.remove('popup_opened'));
-//---------------------------------------------------------------------------------------------------------
-
+popupZoomPostCloseButton.addEventListener('click', () => popupZoom.classList.remove('popup_opened'));
+//--------------------------------------------------------------------------------------------------------
 // инициализация стандартных постов
 const initialCards = [
     {
@@ -59,16 +58,17 @@ const postTemplate = document.querySelector('.post-template').content;
 function createNewPost(postName, imageLink) {
 
     const post = postTemplate.cloneNode(true);
+    const postImage = post.querySelector('.posts__image');
 
     // присваиваем посту введённые переменный
-    post.querySelector('.posts__image').src = imageLink;
+    postImage.src = imageLink;
     post.querySelector('.posts__title').textContent = postName;
-    post.querySelector('.posts__image').alt = postName;
+    postImage.alt = postName;
 
     // вешаем события на кнопки удалений и лайка
     post.querySelector('.button-like').addEventListener('click', (evt) => evt.target.classList.toggle('button-like_active'));
     post.querySelector('.button-trash').addEventListener('click', (evt) => evt.target.closest('.posts__post').remove());
-    post.querySelector('.posts__image').addEventListener('click', openZoomPopup);
+    postImage.addEventListener('click', openZoomPopup);
 
     return post;
 };
@@ -103,23 +103,31 @@ const postLinkInput = popupAddPost.querySelector('.popup__input_type_image');//�
 const imageZoom = popupZoom.querySelector('.popup__zoom-image');
 const captionZoom = popupZoom.querySelector('.popup__zoom-caption');
 
+function openPopup(popup) {
+    popup.classList.add('popup_opened');
+}
+
+function closePopup(popup) {
+    popup.classList.remove('popup_opened');
+}
+
 function openEditorPopup() {
     editNameInput.value = profileName.textContent;
     editAboutInput.value = profileAbout.textContent;
-    popupEditor.classList.add('popup_opened');
+    openPopup(popupEditor);
 };
 
 function openZoomPopup(evt) {
     imageZoom.src = evt.target.src;
     imageZoom.alt = evt.target.alt;
     captionZoom.textContent = evt.target.alt;
-    popupZoom.classList.add('popup_opened');
+    openPopup(popupZoom);
 };
 
 function openPostPopup(evt) {
     postNameInput.value = null;
     postLinkInput.value = null;
-    popupAddPost.classList.add('popup_opened');
+    openPopup(popupAddPost);
 };
 
 //-----------------------------------------------------------------------------------------
@@ -127,7 +135,7 @@ function formSubmitEditHandler(evt) {
     evt.preventDefault();
     profileName.textContent = editNameInput.value;
     profileAbout.textContent = editAboutInput.value;
-    popupEditor.classList.remove('popup_opened');
+    closePopup(popupEditor);
 };
 formEditElement.addEventListener('submit', formSubmitEditHandler);
 
@@ -136,6 +144,6 @@ function formSubmitAddHandler(evt) {
     evt.preventDefault();
     const newPost = createNewPost(postNameInput.value, postLinkInput.value);
     postsList.prepend(newPost);
-    popupAddPost.classList.remove('popup_opened');
+    closePopup(popupAddPost)
 };
 formAddElement.addEventListener('submit', formSubmitAddHandler);
