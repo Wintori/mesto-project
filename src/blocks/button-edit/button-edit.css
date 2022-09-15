@@ -1,0 +1,22 @@
+.button-edit {
+    background-image: url("../../images/button-edit.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 10px;
+    border: 1px solid #FFFFFF;
+    height: 24px;
+    width: 24px;
+    transition: opacity .2s linear;
+}
+
+.button-edit:hover {
+    opacity: 0.6;
+}
+
+@media screen and (max-width: 683px) {
+    .button-edit {
+        height: 18px;
+        width: 18px;
+        background-size: 7.5px;
+    }
+}

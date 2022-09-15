@@ -1,0 +1,12 @@
+.profile__name-section {
+    display: flex;
+    margin: 0;
+    padding: 22px 0 8px 0;
+}
+
+@media screen and (max-width: 683px) {
+
+    .profile__name-section {
+        padding: 27px 0 8px 0;
+    }
+}

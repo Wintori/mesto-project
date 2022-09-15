@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Место</title>
+    <!-- <link rel="stylesheet" href="./pages/index.css"> -->
+</head>
+
+<body>
+<div class="page">
+
+    <header class="header">
+
+        <img class="header__logo" src="<%=require('./images/header-logo.svg')%>" alt="Логотип">
+
+    </header>
+
+
+    <main class="content">
+
+        <section class="profile">
+
+            <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="Аватарка">
+
+            <div class="profile__info">
+                <div class="profile__name-section">
+                    <h1 class="profile__name">Жак-Ив Кусто</h1>
+                    <button class="button button-edit" type="button" aria-label="Редактировать"></button>
+                </div>
+                <p class="profile__status">Исследователь океана</p>
+            </div>
+
+            <button class="button button-add" type="button" aria-label="Добавить"></button>
+        </section>
+
+        <section class="posts">
+            <ul class="posts__list">
+            </ul>
+        </section>
+    </main>
+
+    <footer class="footer">
+
+        <p class="footer__copyright">&copy; 2022. Шашурин Егор</p>
+
+    </footer>
+
+
+    <section class="popup">
+        <div class="popup__container" id="popup__profileEdit-container">
+            <button class="button button-close" type="button" aria-label="Закрыть"></button>
+            <h2 class="popup__title">Редактировать профиль</h2>
+            <form class="popup__person-information" name="personInformationForm">
+                <input class="popup__input popup__input_type_name" type="text" required placeholder="Имя"
+                       name="nameInput" value="Жак-Ив Кусто">
+                <input class="popup__input popup__input_type_about" type="text" required placeholder="О себе"
+                       name="aboutInput"
+                       value="Исследователь океана">
+                <button class="button button-save" type="submit">Сохранить</button>
+            </form>
+
+        </div>
+    </section>
+
+
+    <section class="popup">
+        <div class="popup__container" id="popup__addPost-container">
+            <button class="button button-close" type="button" aria-label="Закрыть"></button>
+            <h2 class="popup__title">Новое место</h2>
+            <form class="popup__person-information" name="personAddPostForm">
+                <input class="popup__input popup__input_type_name" type="text" required placeholder="Название"
+                       name="nameInput">
+                <input class="popup__input popup__input_type_image" type="text" required
+                       placeholder="Ссылка на картинку" name="imageInput">
+                <button class="button button-save" type="submit">Сохранить</button>
+            </form>
+
+        </div>
+    </section>
+
+
+    <section class="popup popup__zoom">
+        <div class="popup__zoom-figure" id="popup__imageZoom-container">
+            <button class="button button-close" type="button" aria-label="Закрыть"></button>
+
+            <figure class="popup__zoom-figure">
+                <img src="https://images.unsplash.com/photo-1603777953662-5310c93eeb1c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
+                     class="popup__zoom-image" alt="Карачаево-Черкессия">
+                <figcaption class="popup__zoom-caption">Карачаево-Черкессия</figcaption>
+            </figure>
+
+        </div>
+    </section>
+
+</div>
+
+
+<!-- Заготовка поста -->
+<template class="post-template">
+    <li class="posts__post">
+        <img class="posts__image">
+        <button class="button button-trash" type="button" aria-label="Удалить"></button>
+        <div class="posts__footer">
+            <h2 class="posts__title"></h2>
+            <button class="button button-like" type="button" aria-label="Лайк"></button>
+        </div>
+    </li>
+</template>
+
+<!-- <script src="./components/index.js"></script> -->
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+.posts {
+    max-width: calc(282px*3 + 17px*2);
+    margin: 0 auto 67px auto;
+}
+
+@media screen and (max-width: 880px) {
+
+    .posts {
+        max-width: calc(282px*2 + 17px);
+    }
+
+}
+
+@media screen and (max-width: 600px) {
+
+    .posts {
+        max-width: 282px;
+        margin: 0 auto 50px auto;
+    }
+
+}
