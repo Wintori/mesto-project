@@ -1,3 +1,5 @@
+import '../pages/index.css';
+
 const content = document.querySelector('.content');
 const profile = content.querySelector('.profile');
 

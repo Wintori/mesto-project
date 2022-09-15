@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Место</title>
-    <link rel="stylesheet" href="./pages/index.css">
+    <!-- <link rel="stylesheet" href="./pages/index.css"> -->
 </head>
 
 <body>
@@ -13,7 +13,7 @@
 
     <header class="header">
 
-        <img class="header__logo" src="./images/header-logo.svg" alt="Логотип">
+        <img class="header__logo" src="<%=require('./images/header-logo.svg')%>" alt="Логотип">
 
     </header>
 
@@ -22,7 +22,7 @@
 
         <section class="profile">
 
-            <img class="profile__avatar" src="./images/avatar.png" alt="Аватарка">
+            <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="Аватарка">
 
             <div class="profile__info">
                 <div class="profile__name-section">
@@ -109,7 +109,7 @@
     </li>
 </template>
 
-<script src="./scripts/script.js"></script>
+<!-- <script src="./components/index.js"></script> -->
 </body>
 
 </html>
