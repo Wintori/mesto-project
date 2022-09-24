@@ -1,5 +1,6 @@
 import '../pages/index.css';
 
+const page = document.querySelector('.page');
 const content = document.querySelector('.content');
 const profile = content.querySelector('.profile');
 
@@ -7,6 +8,7 @@ const profile = content.querySelector('.profile');
 const popupAddPost = document.querySelector('#popup__addPost-container').parentNode;
 const popupEditor = document.querySelector('#popup__profileEdit-container').parentNode;
 const popupZoom = document.querySelector('#popup__imageZoom-container').parentNode;
+const popups = document.querySelectorAll('.popup');
 //----------(поиск кнопок открытия\закрытия попапов)--------------
 const popupAddPostOpenButton = profile.querySelector('.button-add');
 const popupAddPostCloseButton = popupAddPost.querySelector('.button-close');
@@ -16,8 +18,13 @@ const popupEditProfileCloseButton = popupEditor.querySelector('.button-close');
 
 const popupZoomPostCloseButton = popupZoom.querySelector('.button-close');
 //------------------------(добавление события на кнопки закрытия\открытия)-------------------------------
+
+
+
 popupAddPostOpenButton.addEventListener('click', openPostPopup);
 popupAddPostCloseButton.addEventListener('click', () => popupAddPost.classList.remove('popup_opened'));
+
+
 
 popupEditProfileOpenButton.addEventListener('click', openEditorPopup);
 popupEditProfileCloseButton.addEventListener('click', () => popupEditor.classList.remove('popup_opened'));
@@ -107,6 +114,7 @@ const captionZoom = popupZoom.querySelector('.popup__zoom-caption');
 
 function openPopup(popup) {
     popup.classList.add('popup_opened');
+    // popupChanges(popup);
 }
 
 function closePopup(popup) {
@@ -149,3 +157,25 @@ function formSubmitAddHandler(evt) {
     closePopup(popupAddPost)
 };
 formAddElement.addEventListener('submit', formSubmitAddHandler);
+
+// ------------------------------------------------------------------------------------------
+
+function closeOnEsc (evt) {
+    if (evt.keyCode === 27) {
+        popups.forEach(popup => { 
+            closePopup(popup) 
+        })   
+    }
+}
+
+document.addEventListener('keydown',closeOnEsc);
+
+
+function closeOnClick (evt) {
+    if((evt.target.classList.contains('popup')) && !(evt.target.classList.contains('popup__container')))
+        popups.forEach(popup => { 
+            closePopup(popup) 
+        })
+}
+
+document.addEventListener('click', closeOnClick);
