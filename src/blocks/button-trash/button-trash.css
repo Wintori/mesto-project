@@ -13,3 +13,7 @@
 .button-trash:hover {
     opacity: 0.6;
 }
+
+.button-trash_disabled {
+    display: none;
+}

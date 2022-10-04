@@ -13,6 +13,7 @@
 @import url(../blocks/button/button.css);
 @import url(../blocks/button-add/button-add.css);
 @import url(../blocks/button-edit/button-edit.css);
+@import url(../blocks/button/_inactive/button_inactive.css);
 @import url(../blocks/posts/posts.css);
 @import url(../blocks/posts/__list/posts__list.css);
 @import url(../blocks/posts/__post/posts__post.css);
@@ -30,7 +31,10 @@
 @import url(../blocks/button-close/button-close.css);
 @import url(../blocks/popup/__title/popup__title.css);
 @import url(../blocks/popup/__person-information/popup__person-information.css);
+@import url(../blocks/popup/__fieldset/popup__fieldset.css);
 @import url(../blocks/popup/__input/popup__input.css);
+@import url(../blocks/popup/__input-error/popup__input-error.css);
+@import url(../blocks/popup/__input-error/_active/popup__input-error_active.css);
 @import url(../blocks/button-save/button-save.css);
 @import url(../blocks/popup/__zoom/popup__zoom.css);
 @import url(../blocks/popup/__zoom-caption/popup__zoom-caption.css);
