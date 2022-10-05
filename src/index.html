@@ -26,10 +26,10 @@
 
                 <div class="profile__info">
                     <div class="profile__name-section">
-                        <h1 class="profile__name">Жак-Ив Кусто</h1>
+                        <h1 class="profile__name"></h1>
                         <button class="button button-edit" type="button" aria-label="Редактировать"></button>
                     </div>
-                    <p class="profile__status">Исследователь океана</p>
+                    <p class="profile__status"></p>
                 </div>
 
                 <button class="button button-add" type="button" aria-label="Добавить"></button>
@@ -54,13 +54,14 @@
                 <form class="popup__person-information" name="personInformationForm" novalidate>
                     <h2 class="popup__title">Редактировать профиль</h2>
                     <fieldset class="popup__fieldset">
-                        <input pattern="[a-zA-Zа-яА-Я0-9- ]{2,40}"  class="popup__input popup__input_type_name" id="input-name" type="text" required
-                            minlength="2" maxlength="40" placeholder="Имя" name="nameInput" value="Жак-Ив Кусто">
+                        <input pattern="[a-zA-Zа-яА-Я0-9- ]{2,40}" class="popup__input popup__input_type_name"
+                            id="input-name" type="text" required minlength="2" maxlength="40" placeholder="Имя"
+                            name="nameInput" value="Жак-Ив Кусто">
                         <span class="popup__input-error input-name-error"></span>
 
-                        <input pattern="[a-zA-Zа-яА-Я0-9- ]{2,200}" class="popup__input popup__input_type_about" id="input-description" type="text" required
-                            minlength="2" maxlength="200" placeholder="О себе" name="aboutInput"
-                            value="Исследователь океана">
+                        <input pattern="[a-zA-Zа-яА-Я0-9- ]{2,200}" class="popup__input popup__input_type_about"
+                            id="input-description" type="text" required minlength="2" maxlength="200"
+                            placeholder="О себе" name="aboutInput" value="Исследователь океана">
                         <span class="popup__input-error input-description-error"></span>
 
                         <button class="button button-save" type="submit">Сохранить</button>
@@ -77,8 +78,9 @@
                 <form class="popup__person-information" name="personAddPostForm" novalidate>
                     <h2 class="popup__title">Новое место</h2>
                     <fieldset class="popup__fieldset">
-                        <input pattern="[a-zA-Zа-яА-Я0-9- ]{2,30}"  class="popup__input popup__input_type_name" id="input-title"
-                            type="text" required placeholder="Название" name="nameInput" minlength="2" maxlength="30">
+                        <input pattern="[a-zA-Zа-яА-Я0-9- ]{2,30}" class="popup__input popup__input_type_name"
+                            id="input-title" type="text" required placeholder="Название" name="nameInput" minlength="2"
+                            maxlength="30">
                         <span class="popup__input-error input-title-error"></span>
 
                         <input class="popup__input popup__input_type_image" id="input-url" type="url" required
