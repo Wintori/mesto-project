@@ -421,15 +421,15 @@ const deleteCard = (cardId) => {
 
 
 
-Promise.all([getInformationAbout, getInitialCards])
+Promise.all([getInformationAbout(), getInitialCards()])
     .then(data => {
         editNameInput.textContent = data[0].name;
         editAboutInput.textContent = data[0].about;
         myId = data[0]._id;
 
         console.log(data[1])
-        // data[1].forEach(item => {
-        //     const post = createNewPost(item.name, item.link, item._id, item.owner._id, myId);
-        //     postsList.prepend(post);
-        // })
+        data[1].forEach(item => {
+            const post = createNewPost(item.name, item.link, item._id, item.owner._id, myId);
+            postsList.prepend(post);
+        })
     })
