@@ -28,7 +28,6 @@ const initialCards = [
 const popupAddPost = document.querySelector("#popup__addPost-container").parentNode
 const popupEditor = document.querySelector("#popup__profileEdit-container").parentNode
 const popupZoom = document.querySelector("#popup__imageZoom-container").parentNode
-const popupDelete = document.querySelector("#popup__deletePost-container").parentNode
 const popupAvatar = document.querySelector("#popup__patchAvatar-container").parentNode
 const popups = document.querySelectorAll(".popup")
 
@@ -53,7 +52,7 @@ const editNameInput = popupEditor.querySelector(".popup__input_type_name") //п�
 const editAboutInput = popupEditor.querySelector(".popup__input_type_about") //поле ввод о себе
 const postNameInput = popupAddPost.querySelector(".popup__input_type_name") //поле ввод имя пост
 const postLinkInput = popupAddPost.querySelector(".popup__input_type_image") //поле ввод ссылка пост
-const avatarLinkInput = popupAvatar.querySelector(".popup__input_type_image") //поле ввод ссылка аватар
+const avatarLinkInput = popupAvatar.querySelector(".popup__input_type_url") //поле ввод ссылка аватар
 
 const imageZoom = popupZoom.querySelector(".popup__zoom-image")
 const captionZoom = popupZoom.querySelector(".popup__zoom-caption")
@@ -72,13 +71,6 @@ const popupZoomPostCloseButton = popupZoom.querySelector(".button-close")
 
 const popupPatchAvatarOpenButton = profile.querySelector(".button-avatar")
 const popupPatchAvatarCloseButton = popupAvatar.querySelector(".button-close")
-
-// const popupDeletePostOpenButton = profile.querySelector(".button-avatar")
-const popupDeletePostCloseButton = popupDelete.querySelector(".button-close")
-
-
-const popupDeleteButton = popupDelete.querySelector(".button-yes")
-
 
 
 export {
@@ -110,12 +102,9 @@ export {
     popupEditProfileOpenButton,
     popupEditProfileCloseButton,
     popupZoomPostCloseButton,
-    popupDelete,
     popupAvatar,
     popupPatchAvatarOpenButton,
     popupPatchAvatarCloseButton,
-    popupDeletePostCloseButton,
     avatarLinkInput,
     formAvatarElement,
-    popupDeleteButton
 }

@@ -20,11 +20,8 @@ import {
     getInformationAbout,
     getInitialCards,
     postCard,
-    deleteCard,
     postUserAvatar,
     postUserInformation,
-    putLike,
-    deleteLike,
 } from "./api.js"
 
 import {
@@ -46,6 +43,8 @@ Promise.all([getInformationAbout(), getInitialCards()])
         console.log(data[1])
         editNameInput.textContent = data[0].name
         editAboutInput.textContent = data[0].about
+        profileName.textContent = data[0].name
+        profileAbout.textContent = data[0].about
         userAvatar.src = data[0].avatar
         avatarLinkInput.value = ''
         myId = data[0]._id
@@ -69,16 +68,6 @@ function formSubmitAddHandler(evt) {
         })
 }
 
-function updateUserInfo() {
-    getInformationAbout().
-        then((result) => {
-            profileName.textContent = result.name
-            profileAbout.textContent = result.about
-        })
-}
-
-updateUserInfo()
-
 function formSubmitEditHandler(evt) {
     evt.preventDefault()
     const editName = editNameInput.value;
@@ -91,21 +80,6 @@ function formSubmitEditHandler(evt) {
         })
 }
 
-//addCard function formSubmitAddHandler(evt) {
-//     evt.preventDefault()
-//     const newPost = createNewPost(postNameInput.value, postLinkInput.value)
-//     postsList.prepend(newPost)
-//     closePopup(popupAddPost)
-// }
-
-
-//addInfo   function formSubmitEditHandler(evt) {
-//     evt.preventDefault()
-//     profileName.textContent = editNameInput.value
-//     profileAbout.textContent = editAboutInput.value
-//     closePopup(popupEditor)
-// }
-
 
 function formSubmitAvatarHandler(evt) {
     evt.preventDefault()
@@ -116,27 +90,6 @@ function formSubmitAvatarHandler(evt) {
             closeAvatarPopup()
         })
 }
-
-// function addLike(evt) {
-//     evt.preventDefault()
-//     const avatarLink = avatarLinkInput.value
-//     postUserAvatar(avatarLink)
-//         .then((res) => {
-//             userAvatar.src = avatarLink;
-//             closeAvatarPopup()
-//         })
-// }
-
-// function deleteLike(evt) {
-//     evt.preventDefault()
-//     const avatarLink = avatarLinkInput.value
-//     postUserAvatar(avatarLink)
-//         .then((res) => {
-//             userAvatar.src = avatarLink;
-//             closeAvatarPopup()
-//         })
-// }
-
 
 formEditElement.addEventListener("submit", formSubmitEditHandler)
 formAddElement.addEventListener("submit", formSubmitAddHandler)

@@ -1,11 +1,4 @@
 .popup__person-information {
     width: 100%;
     margin: 0;
-    padding: 50px 0 0 0;
-}
-
-@media screen and (max-width: 600px) {
-    .popup__person-information {
-        padding: 75px 0 45px 0;
-    }
 }

@@ -3,8 +3,6 @@ import {
     openZoomPopup,
     closeAddPopup,
     closeEditPopup,
-    openDeletePopup,
-    closeDeletePopup,
 } from './modal.js'
 
 import {
@@ -18,7 +16,6 @@ import {
     postLinkInput,
     popupAddPost,
     popupEditor,
-    popupDeleteButton,
 } from "./utils.js"
 
 import {
@@ -93,23 +90,12 @@ function createNewPost(postName, imageLink, ownerId, myId, cardId, likes) {
     })
 
     buttonTrash.addEventListener("click", (evt) => {
-        // openDeletePopup()
-
-        // popupDeleteButton.addEventListener("click", () => {
-
-        //     closeDeletePopup()
-        // })
-
         deleteCard(cardId)
         evt.target.closest(".posts__post").remove()
-        
     })
     postImage.addEventListener("click", openZoomPopup)
     return post
 }
-
-
-
 
 
 export { createNewPost }

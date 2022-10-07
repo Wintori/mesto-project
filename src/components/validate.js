@@ -1,8 +1,8 @@
 const showInputError = (formElement, inputElement, errorMessage) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`)
     inputElement.classList.add("popup__input_type_error")
-    errorElement.textContent = errorMessage
     errorElement.classList.add("popup__input-error_active")
+    errorElement.textContent = errorMessage
 }
 
 const hideInputError = (formElement, inputElement) => {
@@ -13,6 +13,14 @@ const hideInputError = (formElement, inputElement) => {
 }
 
 const checkInputValidity = (formElement, inputElement) => {
+
+    // if (inputElement.validity.patternMismatch) {
+    //     inputElement.setCustomValidity(inputElement.dataset.errorMessage)
+    // } else {
+    //     input.setCustomValidity("")
+    // }
+
+
     if (!inputElement.validity.valid) {
         showInputError(formElement, inputElement, inputElement.validationMessage)
     } else {
@@ -68,7 +76,6 @@ const enableValidation = () => {
         })
     })
 }
-
 
 
 export { enableValidation }

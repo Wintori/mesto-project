@@ -1,5 +1,6 @@
 .button_inactive {
     border: 1px solid #000000;
-    cursor: none;
     background-color: transparent;
+    color: black;
+    cursor: unset;
 }
