@@ -12,18 +12,16 @@
     <div class="page">
 
         <header class="header">
-
             <img class="header__logo" src="<%=require('./images/header-logo.svg')%>" alt="Логотип">
-
         </header>
 
 
         <main class="content">
 
             <section class="profile">
-
-                <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="Аватарка">
-
+                <button type="button" class="button button-avatar">
+                    <img class="profile__avatar" src="" alt="Аватарка">
+                </button>
                 <div class="profile__info">
                     <div class="profile__name-section">
                         <h1 class="profile__name"></h1>
@@ -95,6 +93,27 @@
         </section>
 
 
+        <section class="popup">
+            <div class="popup__container" id="popup__deletePost-container">
+                <button class="button button-close" type="button" aria-label="Закрыть"></button>
+                <h2 class="popup__title">Вы уверены?</h2>
+                <button class="button button-yes" type="submit">Да</button>
+            </div>
+        </section>
+
+        <section class="popup">
+            <div class="popup__container" id="popup__patchAvatar-container">
+                <button class="button button-close" type="button" aria-label="Закрыть"></button>
+                <form class="popup__person-information" name="personPatchAvatarForm" novalidate>
+                    <h2 class="popup__title">Обновить аватар</h2>
+                    <input class="popup__input popup__input_type_image" id="avatar-url" type="url"
+                        placeholder="Ссылка на картинку" name="imageInput" required>
+                    <button class="button button-save" type="submit">Сохранить</button>
+                </form>
+            </div>
+        </section>
+
+
         <section class="popup popup__zoom">
             <div class="popup__zoom-figure" id="popup__imageZoom-container">
                 <button class="button button-close" type="button" aria-label="Закрыть"></button>
@@ -118,7 +137,10 @@
             <button class="button button-trash" type="button" aria-label="Удалить"></button>
             <div class="posts__footer">
                 <h2 class="posts__title"></h2>
-                <button class="button button-like" type="button" aria-label="Лайк"></button>
+                <div class="posts__like-container">
+                    <button class="button button-like" type="button" aria-label="Лайк"></button>
+                    <p class="posts__like-count">666</p>
+                </div>
             </div>
         </li>
     </template>

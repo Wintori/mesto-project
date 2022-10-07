@@ -16,6 +16,13 @@ import {
     popupEditProfileOpenButton,
     popupEditProfileCloseButton,
     popupZoomPostCloseButton,
+    popupDelete,
+    popupAvatar,
+    popupPatchAvatarOpenButton,
+    popupPatchAvatarCloseButton,
+    popupDeletePostCloseButton,
+    avatarLinkInput,
+    popupDeleteButton,
 } from "./utils.js"
 
 popupAddPostCloseButton.addEventListener("click", () =>
@@ -30,6 +37,16 @@ popupEditProfileCloseButton.addEventListener("click", () =>
 popupZoomPostCloseButton.addEventListener("click", () =>
     popupZoom.classList.remove("popup_opened")
 )
+
+popupPatchAvatarOpenButton.addEventListener("click", openAvatarPopup)
+popupPatchAvatarCloseButton.addEventListener("click", () =>
+    popupAvatar.classList.remove("popup_opened")
+)
+
+popupDeletePostCloseButton.addEventListener("click", () =>
+    popupDelete.classList.remove("popup_opened")
+)
+
 
 function openPopup(popup) {
     popup.classList.add("popup_opened")
@@ -67,6 +84,25 @@ function openPostPopup() {
 }
 
 
+function openAvatarPopup() {
+    openPopup(popupAvatar)
+}
+
+function closeAvatarPopup() {
+    avatarLinkInput.value = null
+    closePopup(popupAvatar)
+}
+
+function openDeletePopup() {
+    openPopup(popupDelete)
+}
+
+function closeDeletePopup() {
+    
+    // тут хорошо бы удалять addEventListener
+    closePopup(popupDelete)
+}
+
 function closeOnEsc(evt) {
     if (evt.keyCode === 27) {
         popups.forEach((popup) => {
@@ -96,5 +132,8 @@ export {
     closeOnEsc,
     closeOnClick,
     closeEditPopup,
-    closeAddPopup
+    closeAddPopup,
+    closeAvatarPopup,
+    openDeletePopup,
+    closeDeletePopup,
 }

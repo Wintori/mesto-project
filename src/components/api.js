@@ -74,11 +74,29 @@ const postUserInformation = (newName, newAbout) => {
         .then(res => checkErrors(res))
 }
 
+const putLike = (cardId) => {
+    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+        method: 'PUT',
+        headers: config.headers
+    })
+        .then(res => checkErrors(res))
+}
+
+const deleteLike = (cardId) => {
+    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+        method: 'DELETE',
+        headers: config.headers
+    })
+        .then(res => checkErrors(res))
+}
+
 export {
     getInformationAbout,
     getInitialCards,
     postCard,
     deleteCard,
     postUserAvatar,
-    postUserInformation
+    postUserInformation,
+    putLike,
+    deleteLike,
 }
