@@ -1,6 +1,6 @@
 .posts__footer {
     display: flex;
     justify-content: space-between;
-    padding: 25px 15px 24px 21px;
+    padding: 0 15px 0 21px;
     margin: 0;
 }
