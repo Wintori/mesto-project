@@ -1,0 +1,25 @@
+.button-yes {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    color: white;
+    background-color: black;
+    height: 50px;
+    border-radius: 2px;
+    width: 100%;
+    transition: opacity .2s linear;
+    margin-top: 38px;
+}
+
+.button-yes:hover {
+    opacity: 0.8;
+}
+
+@media screen and (max-width: 600px) {
+    .button-yes {
+        font-size: 14px;
+        line-height: 17px;
+        height: 46px;
+    }
+}
