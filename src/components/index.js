@@ -14,6 +14,9 @@ import {
     userAvatar,
     avatarLinkInput,
     formAvatarElement,
+    popupAddPost,
+    popupEditor,
+    popupAvatar,
 } from "./utils.js"
 
 import {
@@ -40,7 +43,6 @@ let myId
 
 Promise.all([getInformationAbout(), getInitialCards()])
     .then((data) => {
-        console.log(data[1])
         editNameInput.textContent = data[0].name
         editAboutInput.textContent = data[0].about
         profileName.textContent = data[0].name
@@ -54,10 +56,28 @@ Promise.all([getInformationAbout(), getInitialCards()])
         })
     })
 
-enableValidation()
+enableValidation({
+    formSelector: '.popup__person-information',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.button-save',
+    inactiveButtonClass: 'button_inactive',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__input-error_active'
+});
+
+function renderLoading(isLoading, button) {
+    if (isLoading) {
+        button.textContent = "Сохранение..."
+    }
+    else {
+        button.textContent = "Сохранить"
+    }
+}
 
 function formSubmitAddHandler(evt) {
     evt.preventDefault()
+    const button = popupAddPost.querySelector('.button-save');
+    renderLoading(true, button)
     const cardName = postNameInput.value
     const cardLink = postLinkInput.value
     postCard(cardName, cardLink)
@@ -66,10 +86,15 @@ function formSubmitAddHandler(evt) {
             postsList.prepend(post)
             closeAddPopup()
         })
+        .finally(() => {
+            renderLoading(false, button);
+        });
 }
 
 function formSubmitEditHandler(evt) {
     evt.preventDefault()
+    const button = popupEditor.querySelector('.button-save');
+    renderLoading(true, button)
     const editName = editNameInput.value;
     const editAbout = editAboutInput.value;
     postUserInformation(editName, editAbout)
@@ -78,18 +103,27 @@ function formSubmitEditHandler(evt) {
             profileAbout.textContent = res.about
             closeEditPopup()
         })
+        .finally(() => {
+            renderLoading(false, button);
+        });
 }
 
 
 function formSubmitAvatarHandler(evt) {
     evt.preventDefault()
+    const button = popupAvatar.querySelector('.button-save');
+    renderLoading(true, button)
     const avatarLink = avatarLinkInput.value
     postUserAvatar(avatarLink)
         .then((res) => {
             userAvatar.src = avatarLink;
             closeAvatarPopup()
         })
+        .finally(() => {
+            renderLoading(false, button);
+        });
 }
+
 
 formEditElement.addEventListener("submit", formSubmitEditHandler)
 formAddElement.addEventListener("submit", formSubmitAddHandler)

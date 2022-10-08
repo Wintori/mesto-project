@@ -22,6 +22,8 @@ import {
     avatarLinkInput,
 } from "./utils.js"
 
+import { disableButton, resetForm } from "./validate.js"
+
 popupAddPostCloseButton.addEventListener("click", () =>
     popupAddPost.classList.remove("popup_opened")
 )
@@ -70,6 +72,10 @@ function openZoomPopup(evt) {
 }
 
 function openPostPopup() {
+    disableButton(popupAddPost.querySelector('.button-save'))
+    const errorList = popupAddPost.querySelectorAll('.popup__input-error')
+    const inputsList = popupAddPost.querySelectorAll('.popup__input')
+    resetForm(errorList, inputsList)
     postNameInput.value = null
     postLinkInput.value = null
     openPopup(popupAddPost)
@@ -77,6 +83,10 @@ function openPostPopup() {
 
 
 function openAvatarPopup() {
+    disableButton(popupAvatar.querySelector('.button-save'))
+    const errorList = popupAvatar.querySelectorAll('.popup__input-error')
+    const inputsList = popupAvatar.querySelectorAll('.popup__input')
+    resetForm(errorList, inputsList)
     avatarLinkInput.value = null
     openPopup(popupAvatar)
 }
@@ -106,6 +116,9 @@ function closeOnClick(evt) {
 document.addEventListener("click", closeOnClick)
 document.addEventListener("keydown", closeOnEsc)
 popupAddPostOpenButton.addEventListener("click", openPostPopup)
+
+
+
 
 export {
     openPopup,
