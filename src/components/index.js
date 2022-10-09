@@ -10,13 +10,22 @@ import {
     postLinkInput,
     profileName,
     profileAbout,
-    profile,
     userAvatar,
     avatarLinkInput,
     formAvatarElement,
     popupAddPost,
     popupEditor,
     popupAvatar,
+    popupAddPostCloseButton,
+    popupEditProfileOpenButton,
+    popupEditProfileCloseButton,
+    popupZoomPostCloseButton,
+    popupPatchAvatarOpenButton,
+    popupPatchAvatarCloseButton,
+    popupAddPostOpenButton,
+    imageZoom,
+    captionZoom,
+    popupZoom,
 } from "./utils.js"
 
 import {
@@ -31,12 +40,11 @@ import {
     createNewPost,
 } from './card.js'
 
-import { enableValidation } from "./validate.js"
+import { enableValidation, resetForm, disableButton } from "./validate.js"
 
 import {
-    closeAddPopup,
-    closeEditPopup,
-    closeAvatarPopup,
+    openPopup,
+    closePopup,
 } from "./modal.js"
 
 let myId
@@ -74,7 +82,7 @@ function renderLoading(isLoading, button) {
     }
 }
 
-function formSubmitAddHandler(evt) {
+function AddCardHandler(evt) {
     evt.preventDefault()
     const button = popupAddPost.querySelector('.button-save');
     renderLoading(true, button)
@@ -91,7 +99,7 @@ function formSubmitAddHandler(evt) {
         });
 }
 
-function formSubmitEditHandler(evt) {
+function EditProfileHandler(evt) {
     evt.preventDefault()
     const button = popupEditor.querySelector('.button-save');
     renderLoading(true, button)
@@ -109,7 +117,7 @@ function formSubmitEditHandler(evt) {
 }
 
 
-function formSubmitAvatarHandler(evt) {
+function PatchAvatarHandler(evt) {
     evt.preventDefault()
     const button = popupAvatar.querySelector('.button-save');
     renderLoading(true, button)
@@ -125,6 +133,82 @@ function formSubmitAvatarHandler(evt) {
 }
 
 
-formEditElement.addEventListener("submit", formSubmitEditHandler)
-formAddElement.addEventListener("submit", formSubmitAddHandler)
-formAvatarElement.addEventListener("submit", formSubmitAvatarHandler)
+function openAvatarPopup() {
+    disableButton(popupAvatar.querySelector('.button-save'))
+    
+    resetForm(popupAvatar, {
+        inputSelector: '.popup__input',
+        inputErrorClass: 'popup__input_type_error',
+        errorClass: 'popup__input-error_active',
+        errorSpanSelector: '.popup__input-error'
+    })
+
+    avatarLinkInput.value = null
+    openPopup(popupAvatar)
+}
+
+function closeAvatarPopup() {
+    closePopup(popupAvatar)
+}
+
+function openPostPopup() {
+    disableButton(popupAddPost.querySelector('.button-save'))
+    
+
+    resetForm(popupAddPost, {
+        inputSelector: '.popup__input',
+        inputErrorClass: 'popup__input_type_error',
+        errorClass: 'popup__input-error_active',
+        errorSpanSelector: '.popup__input-error'
+    })
+
+    postNameInput.value = null
+    postLinkInput.value = null
+    openPopup(popupAddPost)
+}
+
+function closeAddPopup() {
+    closePopup(popupAddPost)
+}
+
+function openZoomPopup(evt) {
+    imageZoom.src = evt.target.src
+    imageZoom.alt = evt.target.alt
+    captionZoom.textContent = evt.target.alt
+    openPopup(popupZoom)
+}
+
+function closeZoomPopup() {
+    closePopup(popupZoom)
+}
+
+function openEditorPopup() {
+    editNameInput.value = profileName.textContent
+    editAboutInput.value = profileAbout.textContent
+    openPopup(popupEditor)
+}
+
+function closeEditPopup() {
+    closePopup(popupEditor)
+}
+
+
+
+popupAddPostOpenButton.addEventListener("click", openPostPopup)
+popupAddPostCloseButton.addEventListener("click", closeAddPopup)
+
+popupEditProfileOpenButton.addEventListener("click", openEditorPopup)
+popupEditProfileCloseButton.addEventListener("click", closeEditPopup)
+
+popupZoomPostCloseButton.addEventListener("click", closeZoomPopup)
+
+popupPatchAvatarOpenButton.addEventListener("click", openAvatarPopup)
+popupPatchAvatarCloseButton.addEventListener("click", closeAvatarPopup)
+
+
+
+formEditElement.addEventListener("submit", EditProfileHandler)
+formAddElement.addEventListener("submit", AddCardHandler)
+formAvatarElement.addEventListener("submit", PatchAvatarHandler)
+
+export { openZoomPopup }

@@ -1,21 +1,9 @@
 import {
-    closePopup,
-    openZoomPopup,
-    closeAddPopup,
-    closeEditPopup,
-} from './modal.js'
+    openZoomPopup
+} from './index.js'
 
 import {
-    postsList,
     postTemplate,
-    profileName,
-    profileAbout,
-    editNameInput,
-    editAboutInput,
-    postNameInput,
-    postLinkInput,
-    popupAddPost,
-    popupEditor,
 } from "./utils.js"
 
 import {
@@ -25,7 +13,8 @@ import {
 } from "./api.js"
 
 function createNewPost(postName, imageLink, ownerId, myId, cardId, likes) {
-    const post = postTemplate.cloneNode(true)
+    const post = postTemplate.querySelector('.posts__post').cloneNode(true)
+    console.log(post)
     const postImage = post.querySelector(".posts__image")
 
     const buttonTrash = post.querySelector(".button-trash")
@@ -34,7 +23,6 @@ function createNewPost(postName, imageLink, ownerId, myId, cardId, likes) {
     const buttonLike = post.querySelector(".button-like")
 
 
-    // Тут же нужно проверять, поставлен ли уже мною лайк
     likes.forEach(element => {
         if (myId == element._id) {
             buttonLike.classList.add("button-like_active")

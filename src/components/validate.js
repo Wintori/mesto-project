@@ -71,12 +71,15 @@ const enableValidation = (validObj) => {
     })
 }
 
-const resetForm = (errorsList, inputsList) => {
+const resetForm = (popup, validObj) => {
+    const errorsList = popup.querySelectorAll(validObj.errorSpanSelector)
+    const inputsList = popup.querySelectorAll(validObj.inputSelector)
+
     errorsList.forEach((errorElement) => {
-        errorElement.classList.remove('popup__input-error_active')
+        errorElement.classList.remove(validObj.errorClass)
     })
     inputsList.forEach((errorInput) => {
-        errorInput.classList.remove('popup__input_type_error');
+        errorInput.classList.remove(validObj.inputErrorClass);
     })
 }
 
