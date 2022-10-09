@@ -19,9 +19,12 @@
         <main class="content">
 
             <section class="profile">
-                <button type="button" class="button button-avatar">
+                <div class="profile__container">
                     <img class="profile__avatar" src="" alt="Аватарка">
-                </button>
+                    <button type="button" class="button button-avatar">
+                        <img class="profile__avatar-edit" src="<%=require('./images/button-edit.svg')%>" alt="">
+                    </button>
+                </div>
                 <div class="profile__info">
                     <div class="profile__name-section">
                         <h1 class="profile__name"></h1>
@@ -54,12 +57,14 @@
                     <fieldset class="popup__fieldset">
                         <input pattern="^[a-zA-Zа-яёА-ЯЁ0-9- ]+$" class="popup__input popup__input_type_name"
                             id="input-name" type="text" required minlength="2" maxlength="40" placeholder="Имя"
-                            name="nameInput" value="Жак-Ив Кусто" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
+                            name="nameInput" value="Жак-Ив Кусто"
+                            data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
                         <span class="popup__input-error input-name-error"></span>
 
                         <input pattern="^[a-zA-Zа-яёА-ЯЁ0-9- ]+$" class="popup__input popup__input_type_about"
                             id="input-description" type="text" required minlength="2" maxlength="200"
-                            placeholder="О себе" name="aboutInput" value="Исследователь океана" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
+                            placeholder="О себе" name="aboutInput" value="Исследователь океана"
+                            data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
                         <span class="popup__input-error input-description-error"></span>
 
                         <button class="button button-save" type="submit">Сохранить</button>
@@ -78,7 +83,8 @@
                     <fieldset class="popup__fieldset">
                         <input pattern="^[a-zA-Zа-яёА-ЯЁ0-9- ]+$" class="popup__input popup__input_type_name"
                             id="input-title" type="text" required placeholder="Название" name="nameInput" minlength="2"
-                            maxlength="30" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
+                            maxlength="30"
+                            data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
                         <span class="popup__input-error input-title-error"></span>
 
                         <input class="popup__input popup__input_type_image" id="input-url" type="url" required

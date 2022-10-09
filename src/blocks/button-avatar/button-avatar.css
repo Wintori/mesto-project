@@ -1,14 +1,23 @@
 .button-avatar {
     width: 120px;
     height: 120px;
+
     border-radius: 100px;
-    position: relative;
-    background-color: transparent;
+
+
+    position: absolute;
+    left: 0;
+
+    background-color: rgba(0, 0, 0, 0.8);
     border: none;
     cursor: pointer;
+    transition: opacity .2s linear;
+    opacity: 0;
 }
 
-.button-avatar::after {
+
+
+/* .button-avatar::after {
     content: '';
     width: 26px;
     height: 26px;
@@ -42,4 +51,4 @@
 
 .button-avatar:hover::before {
     opacity: 1;
-}
+} */

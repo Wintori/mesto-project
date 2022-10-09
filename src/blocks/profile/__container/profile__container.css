@@ -1,0 +1,11 @@
+.profile__container {
+    position: relative;
+    max-width: 120px;
+    max-height: 120px;
+}
+
+
+.profile__container:hover .button-avatar {
+    opacity: 1;
+    cursor: pointer;
+  }
