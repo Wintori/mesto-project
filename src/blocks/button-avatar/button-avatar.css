@@ -16,39 +16,6 @@
 }
 
 
-
-/* .button-avatar::after {
-    content: '';
-    width: 26px;
-    height: 26px;
-    opacity: 0;
-    background-image: url('../../images/button-edit.svg');
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    top: 40%;
-    left: 40%;
-    position: absolute;
-    z-index: 1;
-    transition: opacity .2s linear;
-}
-
-.button-avatar:hover::after {
+.button-avatar:hover {
     opacity: 1;
 }
-
-.button-avatar::before {
-    content: '';
-    width: 120px;
-    height: 120px;
-    opacity: 0;
-    background-color: rgba(0, 0, 0, 0.8);
-    z-index: 1;
-    border-radius: 100px;
-    position: absolute;
-    transition: opacity .2s linear;
-}
-
-.button-avatar:hover::before {
-    opacity: 1;
-} */
