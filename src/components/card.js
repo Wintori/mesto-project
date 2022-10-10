@@ -14,9 +14,7 @@ import {
 
 function createNewPost(postName, imageLink, ownerId, myId, cardId, likes) {
     const post = postTemplate.querySelector('.posts__post').cloneNode(true)
-    console.log(post)
     const postImage = post.querySelector(".posts__image")
-
     const buttonTrash = post.querySelector(".button-trash")
     const likeCount = post.querySelector(".posts__like-count")
     const likeContainer = post.querySelector(".posts__like-container")

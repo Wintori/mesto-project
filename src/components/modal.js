@@ -17,22 +17,17 @@ function closePopup(popup) {
 
 function closeOnEsc(evt) {
     if (evt.keyCode === 27) {
-        popups.forEach((popup) => {
-            if(popup.classList.contains('popup_opened'))
-            closePopup(popup)
-        })
+        if (document.querySelector('.popup_opened')) {
+            document.querySelector('.popup_opened').classList.remove("popup_opened")
+        }
     }
 }
 
 function closeOnClick(evt) {
-    if (
-        evt.target.classList.contains("popup") && !evt.target.classList.contains("popup__container")
-    )
-        popups.forEach((popup) => {
-            closePopup(popup)
-        })
+    if (evt.target.classList.contains("popup") && !evt.target.classList.contains("popup__container")) {
+        evt.target.classList.remove("popup_opened")
+    }
 }
-
 
 export {
     openPopup,

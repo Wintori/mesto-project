@@ -49,6 +49,16 @@ import {
 
 let myId
 
+let validObj = {
+    formSelector: '.popup__person-information',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.button-save',
+    inactiveButtonClass: 'button_inactive',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__input-error_active',
+    errorSpanSelector: '.popup__input-error'
+}
+
 Promise.all([getInformationAbout(), getInitialCards()])
     .then((data) => {
         editNameInput.textContent = data[0].name
@@ -64,14 +74,7 @@ Promise.all([getInformationAbout(), getInitialCards()])
         })
     })
 
-enableValidation({
-    formSelector: '.popup__person-information',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.button-save',
-    inactiveButtonClass: 'button_inactive',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__input-error_active'
-});
+enableValidation(validObj);
 
 function renderLoading(isLoading, button) {
     if (isLoading) {
@@ -135,13 +138,8 @@ function PatchAvatarHandler(evt) {
 
 function openAvatarPopup() {
     disableButton(popupAvatar.querySelector('.button-save'))
-    
-    resetForm(popupAvatar, {
-        inputSelector: '.popup__input',
-        inputErrorClass: 'popup__input_type_error',
-        errorClass: 'popup__input-error_active',
-        errorSpanSelector: '.popup__input-error'
-    })
+
+    resetForm(popupAvatar, validObj)
 
     avatarLinkInput.value = null
     openPopup(popupAvatar)
@@ -153,7 +151,7 @@ function closeAvatarPopup() {
 
 function openPostPopup() {
     disableButton(popupAddPost.querySelector('.button-save'))
-    
+
 
     resetForm(popupAddPost, {
         inputSelector: '.popup__input',
