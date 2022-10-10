@@ -49,7 +49,7 @@ import {
 
 let myId
 
-let validObj = {
+const validObj = {
     formSelector: '.popup__person-information',
     inputSelector: '.popup__input',
     submitButtonSelector: '.button-save',
