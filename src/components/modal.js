@@ -16,7 +16,7 @@ function closePopup(popup) {
 
 
 function closeOnEsc(evt) {
-    if (evt.keyCode === 27) {
+    if (evt.key === "Escape") {
         if (document.querySelector('.popup_opened')) {
             document.querySelector('.popup_opened').classList.remove("popup_opened")
         }

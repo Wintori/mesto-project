@@ -1,8 +1,4 @@
 import {
-    openZoomPopup
-} from './index.js'
-
-import {
     postTemplate,
 } from "./utils.js"
 
@@ -12,7 +8,58 @@ import {
     deleteLike,
 } from "./api.js"
 
-function createNewPost(postName, imageLink, ownerId, myId, cardId, likes) {
+function addDomLike(obj, likeCount, likeContainer) {
+    if (obj.likes.length == 1) {
+        likeCount.style.display = "block"
+        likeContainer.style.padding = "22px 0 0 0"
+        likeCount.textContent = obj.likes.length;
+    } else {
+        likeCount.textContent = obj.likes.length
+    }
+}
+
+function delDomLike(obj, likeCount, likeContainer) {
+    if (obj.likes.length == 0) {
+        likeCount.style.display = "none"
+        likeContainer.style.padding = "30px 0 0 0"
+    } else {
+        likeCount.textContent = obj.likes.length
+    }
+}
+
+function delLikeHandler(cardId, evt, likeCount, likeContainer) {
+    deleteLike(cardId)
+        .then((res) => {
+            evt.target.classList.remove("button-like_active")
+            delDomLike(res, likeCount, likeContainer)
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+}
+
+function putLikeHandler(cardId, evt,  likeCount, likeContainer) {
+    putLike(cardId)
+        .then((res) => {
+            evt.target.classList.add("button-like_active")
+            addDomLike(res, likeCount, likeContainer)
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+}
+
+function delCardHandler(cardId, evt) {
+    deleteCard(cardId)
+        .then(() => {
+            evt.target.closest(".posts__post").remove()
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+}
+
+function createNewPost(postName, imageLink, ownerId, myId, cardId, likes, openZoomPopup) {
     const post = postTemplate.querySelector('.posts__post').cloneNode(true)
     const postImage = post.querySelector(".posts__image")
     const buttonTrash = post.querySelector(".button-trash")
@@ -49,35 +96,14 @@ function createNewPost(postName, imageLink, ownerId, myId, cardId, likes) {
 
     buttonLike.addEventListener("click", (evt) => {
         if (evt.target.classList.contains("button-like_active")) {
-            evt.target.classList.remove("button-like_active")
-            deleteLike(cardId)
-                .then((res) => {
-                    if (res.likes.length == 0) {
-                        likeCount.style.display = "none"
-                        likeContainer.style.padding = "30px 0 0 0"
-                    } else {
-                        likeCount.textContent = res.likes.length
-                    }
-                })
+            delLikeHandler(cardId, evt, likeCount, likeContainer)
         } else {
-            evt.target.classList.add("button-like_active")
-            putLike(cardId)
-                .then((res) => {
-                    if (res.likes.length == 1) {
-                        likeCount.style.display = "block"
-                        likeContainer.style.padding = "22px 0 0 0"
-                        likeCount.textContent = res.likes.length;
-                    } else {
-                        likeCount.textContent = res.likes.length
-                    }
-
-                })
+            putLikeHandler(cardId, evt, likeCount, likeContainer)
         }
     })
 
     buttonTrash.addEventListener("click", (evt) => {
-        deleteCard(cardId)
-        evt.target.closest(".posts__post").remove()
+        delCardHandler(cardId, evt)
     })
     postImage.addEventListener("click", openZoomPopup)
     return post

@@ -69,9 +69,12 @@ Promise.all([getInformationAbout(), getInitialCards()])
         avatarLinkInput.value = ''
         myId = data[0]._id
         data[1].forEach((item) => {
-            const post = createNewPost(item.name, item.link, item.owner._id, myId, item._id, item.likes)
+            const post = createNewPost(item.name, item.link, item.owner._id, myId, item._id, item.likes, openZoomPopup)
             postsList.append(post)
         })
+    })
+    .catch((error) => {
+        console.log(error);
     })
 
 enableValidation(validObj);
@@ -85,7 +88,7 @@ function renderLoading(isLoading, button) {
     }
 }
 
-function AddCardHandler(evt) {
+function addCardHandler(evt) {
     evt.preventDefault()
     const button = popupAddPost.querySelector('.button-save');
     renderLoading(true, button)
@@ -93,7 +96,7 @@ function AddCardHandler(evt) {
     const cardLink = postLinkInput.value
     postCard(cardName, cardLink)
         .then((res) => {
-            const post = createNewPost(res.name, res.link, res.owner._id, myId, res._id, res.likes)
+            const post = createNewPost(res.name, res.link, res.owner._id, myId, res._id, res.likes, openZoomPopup)
             postsList.prepend(post)
             closeAddPopup()
         })
@@ -102,7 +105,7 @@ function AddCardHandler(evt) {
         });
 }
 
-function EditProfileHandler(evt) {
+function editProfileHandler(evt) {
     evt.preventDefault()
     const button = popupEditor.querySelector('.button-save');
     renderLoading(true, button)
@@ -120,7 +123,7 @@ function EditProfileHandler(evt) {
 }
 
 
-function PatchAvatarHandler(evt) {
+function patchAvatarHandler(evt) {
     evt.preventDefault()
     const button = popupAvatar.querySelector('.button-save');
     renderLoading(true, button)
@@ -141,7 +144,7 @@ function openAvatarPopup() {
 
     resetForm(popupAvatar, validObj)
 
-    avatarLinkInput.value = null
+    avatarLinkInput.value = ""
     openPopup(popupAvatar)
 }
 
@@ -160,8 +163,8 @@ function openPostPopup() {
         errorSpanSelector: '.popup__input-error'
     })
 
-    postNameInput.value = null
-    postLinkInput.value = null
+    postNameInput.value = ""
+    postLinkInput.value = ""
     openPopup(popupAddPost)
 }
 
@@ -205,8 +208,6 @@ popupPatchAvatarCloseButton.addEventListener("click", closeAvatarPopup)
 
 
 
-formEditElement.addEventListener("submit", EditProfileHandler)
-formAddElement.addEventListener("submit", AddCardHandler)
-formAvatarElement.addEventListener("submit", PatchAvatarHandler)
-
-export { openZoomPopup }
+formEditElement.addEventListener("submit", editProfileHandler)
+formAddElement.addEventListener("submit", addCardHandler)
+formAvatarElement.addEventListener("submit", patchAvatarHandler)
