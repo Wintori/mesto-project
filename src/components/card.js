@@ -27,6 +27,10 @@ function delDomLike(obj, likeCount, likeContainer) {
     }
 }
 
+function delDomCard (evt) {
+    evt.target.closest(".posts__post").remove()
+}
+
 function delLikeHandler(cardId, evt, likeCount, likeContainer) {
     deleteLike(cardId)
         .then((res) => {
@@ -49,10 +53,12 @@ function putLikeHandler(cardId, evt,  likeCount, likeContainer) {
         })
 }
 
+
+
 function delCardHandler(cardId, evt) {
     deleteCard(cardId)
         .then(() => {
-            evt.target.closest(".posts__post").remove()
+            delDomCard(evt)
         })
         .catch((error) => {
             console.log(error);

@@ -100,6 +100,9 @@ function addCardHandler(evt) {
             postsList.prepend(post)
             closeAddPopup()
         })
+        .catch((error) => {
+            console.log(error);
+        })
         .finally(() => {
             renderLoading(false, button);
         });
@@ -117,6 +120,9 @@ function editProfileHandler(evt) {
             profileAbout.textContent = res.about
             closeEditPopup()
         })
+        .catch((error) => {
+            console.log(error);
+        })
         .finally(() => {
             renderLoading(false, button);
         });
@@ -132,6 +138,9 @@ function patchAvatarHandler(evt) {
         .then((res) => {
             userAvatar.src = avatarLink;
             closeAvatarPopup()
+        })
+        .catch((error) => {
+            console.log(error);
         })
         .finally(() => {
             renderLoading(false, button);
