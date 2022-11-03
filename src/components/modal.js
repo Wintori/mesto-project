@@ -1,7 +1,3 @@
-import {
-    popups,
-} from "./utils.js"
-
 function openPopup(popup) {
     popup.classList.add("popup_opened")
     document.addEventListener("keydown", closeOnEsc)
