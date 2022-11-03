@@ -29,15 +29,11 @@ import {
 } from "./utils.js"
 
 import {
-    getInformationAbout,
-    getInitialCards,
-    postCard,
-    postUserAvatar,
-    postUserInformation,
+    api
 } from "./api.js"
 
 import {
-    createNewPost,
+    Card
 } from './card.js'
 
 import { enableValidation, resetForm, disableButton } from "./validate.js"
@@ -59,7 +55,7 @@ const validObj = {
     errorSpanSelector: '.popup__input-error'
 }
 
-Promise.all([getInformationAbout(), getInitialCards()])
+Promise.all([api.getInformationAbout(), api.getInitialCards()])
     .then((data) => {
         editNameInput.textContent = data[0].name
         editAboutInput.textContent = data[0].about
@@ -69,8 +65,9 @@ Promise.all([getInformationAbout(), getInitialCards()])
         avatarLinkInput.value = ''
         myId = data[0]._id
         data[1].forEach((item) => {
-            const post = createNewPost(item.name, item.link, item.owner._id, myId, item._id, item.likes, openZoomPopup)
-            postsList.append(post)
+            const post = new Card(item.name, item.link, item.owner._id, myId, item._id, item.likes, '.posts__post')
+            const card = post.createNewPost()
+            postsList.append(card)
         })
     })
     .catch((error) => {
@@ -88,13 +85,14 @@ function renderLoading(isLoading, button) {
     }
 }
 
+
 function addCardHandler(evt) {
     evt.preventDefault()
     const button = popupAddPost.querySelector('.button-save');
     renderLoading(true, button)
     const cardName = postNameInput.value
     const cardLink = postLinkInput.value
-    postCard(cardName, cardLink)
+    api.postCard(cardName, cardLink)
         .then((res) => {
             const post = createNewPost(res.name, res.link, res.owner._id, myId, res._id, res.likes, openZoomPopup)
             postsList.prepend(post)
@@ -114,7 +112,7 @@ function editProfileHandler(evt) {
     renderLoading(true, button)
     const editName = editNameInput.value;
     const editAbout = editAboutInput.value;
-    postUserInformation(editName, editAbout)
+    api.postUserInformation(editName, editAbout)
         .then((res) => {
             profileName.textContent = res.name
             profileAbout.textContent = res.about
@@ -134,7 +132,7 @@ function patchAvatarHandler(evt) {
     const button = popupAvatar.querySelector('.button-save');
     renderLoading(true, button)
     const avatarLink = avatarLinkInput.value
-    postUserAvatar(avatarLink)
+    api.postUserAvatar(avatarLink)
         .then((res) => {
             userAvatar.src = avatarLink;
             closeAvatarPopup()
