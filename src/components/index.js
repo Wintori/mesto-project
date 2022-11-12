@@ -26,25 +26,39 @@ import {
     imageZoom,
     captionZoom,
     popupZoom,
+    popupAvatar,
 } from "./utils.js"
 
 import {
     api
 } from "./api.js"
 
-import {
-    Card
-} from './card.js'
+import Card from './card.js'
 
-import { enableValidation, resetForm, disableButton } from "./validate.js"
+import { FormValidator } from "./validate.js"
 
 import {
     openPopup,
     closePopup,
 } from "./modal.js"
 
+import UserInfo from "./userInfo.js"
+
+import Section from "./section.js"
+
 let myId
 
+const userInfo = new UserInfo({profileName,profileAbout})
+
+function newRender() {
+
+}
+
+const items = {}
+
+const section = new Section({items, newRender}, postsList)
+
+// селекторы попапов
 const validObj = {
     formSelector: '.popup__person-information',
     inputSelector: '.popup__input',
@@ -66,16 +80,18 @@ Promise.all([api.getInformationAbout(), api.getInitialCards()])
         myId = data[0]._id
         data[1].forEach((item) => {
             const post = new Card(item.name, item.link, item.owner._id, myId, item._id, item.likes, '.posts__post')
-            const card = post.createNewPost()
-            postsList.append(card)
+            // postsList.append(post.createNewPost())
+            section.addItem(post.createNewPost())
         })
     })
     .catch((error) => {
         console.log(error);
     })
 
-enableValidation(validObj);
+const defaultValidate = new FormValidator(validObj)
+defaultValidate.enableValidation()
 
+// изменение надписи кнопки при загрузке
 function renderLoading(isLoading, button) {
     if (isLoading) {
         button.textContent = "Сохранение..."
@@ -86,6 +102,7 @@ function renderLoading(isLoading, button) {
 }
 
 
+// добавление новой карточки
 function addCardHandler(evt) {
     evt.preventDefault()
     const button = popupAddPost.querySelector('.button-save');
@@ -94,8 +111,9 @@ function addCardHandler(evt) {
     const cardLink = postLinkInput.value
     api.postCard(cardName, cardLink)
         .then((res) => {
-            const post = createNewPost(res.name, res.link, res.owner._id, myId, res._id, res.likes, openZoomPopup)
-            postsList.prepend(post)
+            const post = new Card(res.name, res.link, res.owner._id, myId, res._id, res.likes, '.posts__post')
+            // postsList.append(post.createNewPost())
+            section.addItem(post.createNewPost(), false)
             closeAddPopup()
         })
         .catch((error) => {
@@ -106,6 +124,7 @@ function addCardHandler(evt) {
         });
 }
 
+// изменение информации профиля
 function editProfileHandler(evt) {
     evt.preventDefault()
     const button = popupEditor.querySelector('.button-save');
@@ -114,8 +133,7 @@ function editProfileHandler(evt) {
     const editAbout = editAboutInput.value;
     api.postUserInformation(editName, editAbout)
         .then((res) => {
-            profileName.textContent = res.name
-            profileAbout.textContent = res.about
+            userInfo.setUserInfo(res)
             closeEditPopup()
         })
         .catch((error) => {
@@ -127,13 +145,14 @@ function editProfileHandler(evt) {
 }
 
 
+// смена аватара профиля
 function patchAvatarHandler(evt) {
     evt.preventDefault()
     const button = popupAvatar.querySelector('.button-save');
     renderLoading(true, button)
     const avatarLink = avatarLinkInput.value
     api.postUserAvatar(avatarLink)
-        .then((res) => {
+        .then(() => {
             userAvatar.src = avatarLink;
             closeAvatarPopup()
         })
@@ -145,63 +164,65 @@ function patchAvatarHandler(evt) {
         });
 }
 
+// const popupImage = new PopupWithImage(selectorsPopupWindow);
+// const popupEditForm = new PopupWithForm(popupEditor, editProfileHandler);
+// const popupAvatarForm = new PopupWithForm(popupAvatar, patchAvatarHandler);
+// const popupPostForm = new PopupWithForm(popupAddPost, addCardHandler);
 
+// открытие попапа аватар
 function openAvatarPopup() {
-    disableButton(popupAvatar.querySelector('.button-save'))
-
-    resetForm(popupAvatar, validObj)
-
+    let avatarValidate = new FormValidator(validObj, popupAvatar)
+    avatarValidate.resetForm()
     avatarLinkInput.value = ""
     openPopup(popupAvatar)
 }
 
+// закрытие попапа аватар
 function closeAvatarPopup() {
     closePopup(popupAvatar)
 }
 
+// открытие попапа добавление поста
 function openPostPopup() {
-    disableButton(popupAddPost.querySelector('.button-save'))
-
-
-    resetForm(popupAddPost, {
+    let postValidate = new FormValidator( {
         inputSelector: '.popup__input',
         inputErrorClass: 'popup__input_type_error',
         errorClass: 'popup__input-error_active',
         errorSpanSelector: '.popup__input-error'
-    })
+    }, popupAddPost)
+    postValidate.resetForm()
 
     postNameInput.value = ""
     postLinkInput.value = ""
     openPopup(popupAddPost)
 }
 
+// закрытие попапа добавление поста
 function closeAddPopup() {
     closePopup(popupAddPost)
 }
 
-function openZoomPopup(evt) {
-    imageZoom.src = evt.target.src
-    imageZoom.alt = evt.target.alt
-    captionZoom.textContent = evt.target.alt
-    openPopup(popupZoom)
-}
-
+// закрытие попапа зум
 function closeZoomPopup() {
     closePopup(popupZoom)
 }
 
+// открытие попапа редактирования профиля
 function openEditorPopup() {
     editNameInput.value = profileName.textContent
     editAboutInput.value = profileAbout.textContent
     openPopup(popupEditor)
 }
 
+// закрытие попапа редактирования профиля
 function closeEditPopup() {
     closePopup(popupEditor)
 }
 
+// -----------Слушатели-----------
 
 
+// ----------popups-------------
 popupAddPostOpenButton.addEventListener("click", openPostPopup)
 popupAddPostCloseButton.addEventListener("click", closeAddPopup)
 
@@ -214,7 +235,19 @@ popupPatchAvatarOpenButton.addEventListener("click", openAvatarPopup)
 popupPatchAvatarCloseButton.addEventListener("click", closeAvatarPopup)
 
 
+// ------------buttons------------------ 
 
+// добавление обработчика кнопки редактирование профиля
 formEditElement.addEventListener("submit", editProfileHandler)
+// добавление обработчика кнопки добавить карточку
 formAddElement.addEventListener("submit", addCardHandler)
+// добавление обработчика кнопки сменить аватар
 formAvatarElement.addEventListener("submit", patchAvatarHandler)
+
+
+
+
+
+// popupAvatarForm.setEventListeners();
+// popupPostForm.setEventListeners();
+// popupEditForm.setEventListeners();

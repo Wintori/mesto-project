@@ -4,6 +4,7 @@ class Api {
         this.headers = headers
     }
 
+    // проверка на ошибки
     _checkErrors = (res) => {
         if (res.ok) {
             return res.json();
@@ -12,6 +13,7 @@ class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
     }
 
+    // получение карточек
     getInitialCards = () => {
         return fetch(`${this.baseUrl}/cards`, {
             method: 'GET',
@@ -20,6 +22,7 @@ class Api {
             .then(res => this._checkErrors(res))
     }
 
+    //  получение информации пользователя
     getInformationAbout = () => {
         return fetch(`${this.baseUrl}/users/me`, {
             headers: this.headers
@@ -27,6 +30,7 @@ class Api {
             .then(res => this._checkErrors(res))
     }
 
+    // отправка карточки на сервер
     postCard = (cardName, cardLink) => {
         return fetch(`${this.baseUrl}/cards`, {
             method: 'POST',
@@ -39,6 +43,7 @@ class Api {
             .then(res => this._checkErrors(res))
     }
     
+    // удаление карточки с сервера
     deleteCard = (cardId) => {
         return fetch(`${this.baseUrl}/cards/${cardId}`, {
             method: 'DELETE',
@@ -47,6 +52,7 @@ class Api {
             .then(res => this._checkErrors(res))
     }
     
+    // отправка аватара на сервер
     postUserAvatar = (newUrl) => {
         return fetch(`${this.baseUrl}/users/me/avatar`, {
             method: 'PATCH',
@@ -58,6 +64,7 @@ class Api {
             .then(res => this._checkErrors(res))
     }
     
+    // отправка информации о пользователе на сервер
     postUserInformation = (newName, newAbout) => {
         return fetch(`${this.baseUrl}/users/me`, {
             method: 'PATCH',
@@ -70,6 +77,7 @@ class Api {
             .then(res => this._checkErrors(res))
     }
     
+    // отправка лайка на сервер
     putLike = (cardId) => {
         return fetch(`${this.baseUrl}/cards/likes/${cardId}`, {
             method: 'PUT',
@@ -78,6 +86,7 @@ class Api {
             .then(res => this._checkErrors(res))
     }
     
+    // удаление лайка с сервера
     deleteLike = (cardId) => {
         return fetch(`${this.baseUrl}/cards/likes/${cardId}`, {
             method: 'DELETE',
@@ -85,10 +94,9 @@ class Api {
         })
             .then(res => this._checkErrors(res))
     }
-
-    // другие методы работы с API
 }
 
+// создание профиля нашего пользователя
 const api = new Api({
     baseUrl: 'https://nomoreparties.co/v1/plus-cohort-14',
     headers: {
