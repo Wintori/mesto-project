@@ -1,97 +1,26 @@
 import {
-    postTemplate,
-    popupZoom,
-    imageZoom,
-    captionZoom
+    postTemplate
 } from "./utils.js"
 
-import {
-    openPopup,
-} from "./modal.js"
-
-
-import { api } from "./api.js"
-
-
 export default class Card {
-    constructor(name, link, ownerId, myId, cardId, likes, selector) {
+    constructor(name, link, ownerId, myId, cardId, likes, selector, {delLikeHandler, putLikeHandler, delCardHandler, openZoomHandler}) {
         this.name = name,
         this.link = link,
         this.ownerId = ownerId,
         this.myId = myId,
         this.cardId = cardId,
         this.likes = likes,
-        this.selector = selector
+        this.selector = selector,
+        this._delLikeHandler = delLikeHandler,
+        this._putLikeHandler = putLikeHandler,
+        this._delCardHandler = delCardHandler,
+        this._openZoomHandler = openZoomHandler
+        
     }
 
-    // добавление лайка в DOM
-    _addDomLike(obj, likeCount, likeContainer) {
-        if (obj.likes.length == 1) {
-            likeCount.style.display = "block"
-            likeContainer.style.padding = "22px 0 0 0"
-            likeCount.textContent = obj.likes.length;
-        } else {
-            likeCount.textContent = obj.likes.length
-        }
-    }
+    
 
-    // удаление лайка из DOM
-    _delDomLike(obj, likeCount, likeContainer) {
-        if (obj.likes.length == 0) {
-            likeCount.style.display = "none"
-            likeContainer.style.padding = "30px 0 0 0"
-        } else {
-            likeCount.textContent = obj.likes.length
-        }
-    }
-
-    // удаление карточки из DOM
-    _delDomCard (evt) {
-        evt.target.closest(".posts__post").remove()
-    }
-
-    // удаление лайка с сервера и из DOM
-    _delLikeHandler(cardId, evt, likeCount, likeContainer) {
-        api.deleteLike(cardId)
-            .then((res) => {
-                evt.target.classList.remove("button-like_active")
-                this._delDomLike(res, likeCount, likeContainer)
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }
-
-    // добавление лайка на сервер и в DOM
-    _putLikeHandler(cardId, evt,  likeCount, likeContainer) {
-        api.putLike(cardId)
-            .then((res) => {
-                evt.target.classList.add("button-like_active")
-                this._addDomLike(res, likeCount, likeContainer)
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }
-
-    // удаление карточки с сервера и из DOM
-    _delCardHandler(cardId, evt) {
-        api.deleteCard(cardId)
-            .then(() => {
-                this._delDomCard(evt)
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }
-
-    // открытие зума карточки
-    _openZoomHandler(evt) {
-        imageZoom.src = evt.target.src
-        imageZoom.alt = evt.target.alt
-        captionZoom.textContent = evt.target.alt
-        openPopup(popupZoom)
-    }
+   
 
     // проверка, стоял ли уже наш лайк у карточки
     _checkActiveLike(buttonLike) {
@@ -164,7 +93,7 @@ export default class Card {
         })
 
     // слушатель на фотографию (открытие попап зума при нажатии на картинку)
-        postImage.addEventListener("click", (evt) => { this._openZoomHandler(evt) })
+        postImage.addEventListener("click", () => {this._openZoomHandler(this.name, this.link) })
 
     // возвращаем готовую карточку
         return post

@@ -1,4 +1,4 @@
-class FormValidator {
+export default class FormValidator {
     constructor(validObj, popup) {
         this.validObj = validObj
         this.popup = popup
@@ -88,14 +88,12 @@ class FormValidator {
             errorInput.classList.remove(this.validObj.inputErrorClass);
         })
 
-        this._disableButton(this.popup.querySelector('.button-save'))
+
+        this._disableButton()
     }
     
-    _disableButton = (button) => {
-        button.classList.add("button_inactive")
-        button.setAttribute("disabled", "disabled")
+    _disableButton = () => {
+            this.popup.querySelector('.button-save').classList.add("button_inactive")
+            this.popup.querySelector('.button-save').setAttribute("disabled", "disabled")
     }
 }
-
-
-export { FormValidator }

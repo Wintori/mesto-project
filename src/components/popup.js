@@ -1,22 +1,21 @@
-class Popup {
-    constructor(popup) {
-        this.popup = popup
+export default class Popup {
+    constructor(popupSelector) {
+        this._popup = document.getElementById(popupSelector).parentNode
+        this.close = this.close.bind(this)
     }
 
-    open() {
-        this.popup.classList.add("popup_opened")
+    open () {
+        this._popup.classList.add("popup_opened")
         document.addEventListener("keydown", this._handleEscClose)
-        document.addEventListener("click", this._handleOutClose)
     }
     
-    close() {
-        this.popup.classList.remove("popup_opened")
-        // document.removeEventListener("keydown", this._handleEscClose)
-        // document.removeEventListener("click", this._handleOutClose)
+    close ()  {
+        this._popup.classList.remove("popup_opened")
+        document.removeEventListener("keydown", this._handleEscClose)
     }
 
     // закрытие открытого попапа на esc
-    _handleEscClose() {
+    _handleEscClose = (evt) => {
         if (evt.key === "Escape") {
             if (document.querySelector('.popup_opened')) {
                 document.querySelector('.popup_opened').classList.remove("popup_opened")
@@ -25,15 +24,14 @@ class Popup {
     }
 
     // закрытие открытого попапа на overlay
-    _handleOutClose(evt) {
-        if (evt.target.classList.contains("popup") && !evt.target.classList.contains("popup__container")) {
-            evt.target.classList.remove("popup_opened")
+    _handleOutClose = (evt) => {
+        if (evt.target.classList.contains("popup_opened") || evt.target.classList.contains("button-close")) {
+            this.close()
         }
     }
 
-    setEventListeners() {
-        document.removeEventListener("keydown", this._handleEscClose)
-        document.removeEventListener("click", this._handleOutClose)
+    setEventListeners () {
+        this._popup.addEventListener("click", (evt) => this._handleOutClose(evt))
     }
 
 }

@@ -1,10 +1,10 @@
 export default class UserInfo {
-    constructor({ userName, userAbout }) {
+    constructor(userName, userAbout) {
         this.userName = userName
         this.userAbout = userAbout
     }
 
-    getUserInfo() {
+    getUserInfo = () => {
 
         return {
             name: this.userName.textContent,
@@ -12,7 +12,7 @@ export default class UserInfo {
         }
     }
 
-    setUserInfo(obj) {
+    setUserInfo = (obj) => {
         this.userName.textContent = obj.name;
         this.userAbout.textContent = obj.about;
     }
