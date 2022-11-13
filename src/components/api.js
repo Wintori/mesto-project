@@ -1,4 +1,4 @@
-class Api {
+export default class Api {
     constructor({ baseUrl, headers }) {
         this.baseUrl = baseUrl,
         this.headers = headers
@@ -94,18 +94,4 @@ class Api {
         })
             .then(res => this._checkErrors(res))
     }
-}
-
-// создание профиля нашего пользователя
-const api = new Api({
-    baseUrl: 'https://nomoreparties.co/v1/plus-cohort-14',
-    headers: {
-        authorization: '175227b7-8396-4cce-a64b-f428eae8eca2',
-        'Content-Type': 'application/json; charset=UTF-8'
-    }
-});
-
-
-export {
-    api
 }

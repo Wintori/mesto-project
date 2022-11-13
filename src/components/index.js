@@ -28,10 +28,7 @@ import {
     popupZoom,
 } from "./utils.js"
 
-import {
-    api
-} from "./Api.js"
-
+import Api from "./Api.js"
 import Card from './Card.js'
 import FormValidator from "./FormValidator.js"
 import UserInfo from "./UserInfo.js"
@@ -40,6 +37,15 @@ import PopupWithForm from "./PopupWithForm.js"
 import PopupWithImage from "./PopupWithImage.js"
 
 let myId
+
+// создание профиля нашего пользователя
+const api = new Api({
+    baseUrl: 'https://nomoreparties.co/v1/plus-cohort-14',
+    headers: {
+        authorization: '175227b7-8396-4cce-a64b-f428eae8eca2',
+        'Content-Type': 'application/json; charset=UTF-8'
+    }
+});
 
 const userInfo = new UserInfo(profileName, profileAbout);
 const popupImage = new PopupWithImage("popup__imageZoom-container");
