@@ -26,7 +26,6 @@ import {
     imageZoom,
     captionZoom,
     popupZoom,
-    popupAvatar,
 } from "./utils.js"
 
 import {
@@ -50,13 +49,8 @@ let myId
 
 const userInfo = new UserInfo({profileName,profileAbout})
 
-function newRender() {
 
-}
 
-const items = {}
-
-const section = new Section({items, newRender}, postsList)
 
 // селекторы попапов
 const validObj = {
@@ -67,6 +61,12 @@ const validObj = {
     inputErrorClass: 'popup__input_type_error',
     errorClass: 'popup__input-error_active',
     errorSpanSelector: '.popup__input-error'
+}
+
+const items = []
+
+function render(item) {
+    postsList.append(item)
 }
 
 Promise.all([api.getInformationAbout(), api.getInitialCards()])
@@ -81,12 +81,19 @@ Promise.all([api.getInformationAbout(), api.getInitialCards()])
         data[1].forEach((item) => {
             const post = new Card(item.name, item.link, item.owner._id, myId, item._id, item.likes, '.posts__post')
             // postsList.append(post.createNewPost())
-            section.addItem(post.createNewPost())
+            items.push(post.createNewPost())
+
         })
+        const section = new Section({items: items, renderer: render}, postsList)
+        section.renderAll()
     })
     .catch((error) => {
         console.log(error);
     })
+
+    
+
+
 
 const defaultValidate = new FormValidator(validObj)
 defaultValidate.enableValidation()
@@ -101,10 +108,15 @@ function renderLoading(isLoading, button) {
     }
 }
 
+// const popupImage = new PopupWithImage(selectorsPopupWindow);
+// const popupEditForm = new PopupWithForm(popupEditor, editProfileHandler);
+// const popupAvatarForm = new PopupWithForm(popupAvatar, patchAvatarHandler);
+// const popupPostForm = new PopupWithForm(popupAddPost, addCardHandler);
+
 
 // добавление новой карточки
 function addCardHandler(evt) {
-    evt.preventDefault()
+    
     const button = popupAddPost.querySelector('.button-save');
     renderLoading(true, button)
     const cardName = postNameInput.value
@@ -113,6 +125,7 @@ function addCardHandler(evt) {
         .then((res) => {
             const post = new Card(res.name, res.link, res.owner._id, myId, res._id, res.likes, '.posts__post')
             // postsList.append(post.createNewPost())
+            const section = new Section({}, postsList)
             section.addItem(post.createNewPost(), false)
             closeAddPopup()
         })
@@ -164,10 +177,7 @@ function patchAvatarHandler(evt) {
         });
 }
 
-// const popupImage = new PopupWithImage(selectorsPopupWindow);
-// const popupEditForm = new PopupWithForm(popupEditor, editProfileHandler);
-// const popupAvatarForm = new PopupWithForm(popupAvatar, patchAvatarHandler);
-// const popupPostForm = new PopupWithForm(popupAddPost, addCardHandler);
+
 
 // открытие попапа аватар
 function openAvatarPopup() {
