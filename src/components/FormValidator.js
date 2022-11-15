@@ -1,90 +1,84 @@
 export default class FormValidator {
-    constructor(validObj, popup) {
+    constructor(validObj, popupForm) {
         this.validObj = validObj
-        this.popup = popup
+        this._popupForm = popupForm
+        this._inputList = this._popupForm.querySelectorAll(this.validObj.inputSelector)
+        this._inputListArray = Array.from(this._inputList)
+        this._submitButton = this._popupForm.querySelector(this.validObj.submitButtonSelector)
     }
 
-    _showInputError = (formElement, inputElement, errorMessage, validObj) => {
-        const errorElement = formElement.querySelector(`.${inputElement.id}-error`)
-        inputElement.classList.add(validObj.inputErrorClass)
-        errorElement.classList.add(validObj.errorClass)
+    _showInputError = (inputElement, errorMessage) => {
+        const errorElement = this._popupForm.querySelector(`.${inputElement.id}-error`)
+        inputElement.classList.add(this.validObj.inputErrorClass)
+        errorElement.classList.add(this.validObj.errorClass)
         errorElement.textContent = errorMessage
     }
     
-    _hideInputError = (formElement, inputElement, validObj) => {
-        const errorElement = formElement.querySelector(`.${inputElement.id}-error`)
-        inputElement.classList.remove(validObj.inputErrorClass)
-        errorElement.classList.remove(validObj.errorClass)
+    _hideInputError = (inputElement) => {
+        const errorElement = this._popupForm.querySelector(`.${inputElement.id}-error`)
+        inputElement.classList.remove(this.validObj.inputErrorClass)
+        errorElement.classList.remove(this.validObj.errorClass)
         errorElement.textContent = ""
     }
     
-    _checkInputValidity = (formElement, inputElement, validObj) => {
-    
+    _checkInputValidity = (inputElement) => {
         if (inputElement.validity.patternMismatch) {
             inputElement.setCustomValidity(inputElement.dataset.errorMessage)
         } else {
             inputElement.setCustomValidity("")
         }
     
-    
         if (!inputElement.validity.valid) {
-            this._showInputError(formElement, inputElement, inputElement.validationMessage, validObj)
+            this._showInputError(inputElement, inputElement.validationMessage)
         } else {
-            this._hideInputError(formElement, inputElement, validObj)
+            this._hideInputError(inputElement)
         }
     }
     
-    _hasInvalidInput = (inputList) => {
-        return inputList.some((inputElement) => {
+    _hasInvalidInput = () => {
+        return this._inputListArray.some((inputElement) => {
             return !inputElement.validity.valid
         })
     }
     
-    _toggleButtonState = (inputList, buttonElement, validObj) => {
-        if (this._hasInvalidInput(inputList, buttonElement)) {
-            buttonElement.classList.add(validObj.inactiveButtonClass)
-            buttonElement.setAttribute("disabled", "disabled")
+    _toggleButtonState = () => {
+        if (this._hasInvalidInput()) {
+            this._submitButton.classList.add(this.validObj.inactiveButtonClass)
+            this._submitButton.setAttribute("disabled", "disabled")
         } else {
-            buttonElement.classList.remove(validObj.inactiveButtonClass)
-            buttonElement.removeAttribute("disabled", "disabled")
+            this._submitButton.classList.remove(this.validObj.inactiveButtonClass)
+            this._submitButton.removeAttribute("disabled", "disabled")
         }
     }
     
-    _setEventListeners = (formElement, validObj) => {
-        const inputList = Array.from(formElement.querySelectorAll(validObj.inputSelector))
-        const buttonElement = formElement.querySelector(validObj.submitButtonSelector)
+    _setEventListeners = () => {
+        this._toggleButtonState()
     
-        this._toggleButtonState(inputList, buttonElement, validObj)
-    
-        inputList.forEach((inputElement) => {
+        this._inputListArray.forEach((inputElement) => {
             inputElement.addEventListener("input", () => {
-                this._checkInputValidity(formElement, inputElement, validObj)
-                this._toggleButtonState(inputList, buttonElement, validObj)
+                this._checkInputValidity(inputElement)
+                this._toggleButtonState()
             })
         })
     }
     
     enableValidation = () => {
-        const formList = Array.from(
-            document.querySelectorAll(this.validObj.formSelector)
-        )
-        formList.forEach((formElement) => {
-            formElement.addEventListener("submit", (evt) => {
+        
+            this._popupForm.addEventListener("submit", (evt) => {
                 evt.preventDefault()
             })
     
-            this._setEventListeners(formElement, this.validObj)
-        })
+            this._setEventListeners()
+        
     }
     
     resetForm = () => {
-        const errorsList = this.popup.querySelectorAll(this.validObj.errorSpanSelector)
-        const inputsList = this.popup.querySelectorAll(this.validObj.inputSelector)
+        const errorsList = this._popupForm.querySelectorAll(this.validObj.errorSpanSelector)
     
         errorsList.forEach((errorElement) => {
             errorElement.classList.remove(this.validObj.errorClass)
         })
-        inputsList.forEach((errorInput) => {
+        this._inputList.forEach((errorInput) => {
             errorInput.classList.remove(this.validObj.inputErrorClass);
         })
 
@@ -93,7 +87,7 @@ export default class FormValidator {
     }
     
     _disableButton = () => {
-            this.popup.querySelector('.button-save').classList.add("button_inactive")
-            this.popup.querySelector('.button-save').setAttribute("disabled", "disabled")
+        this._submitButton.classList.add("button_inactive")
+        this._submitButton.setAttribute("disabled", "disabled")
     }
 }

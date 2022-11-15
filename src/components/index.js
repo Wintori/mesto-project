@@ -47,8 +47,9 @@ const api = new Api({
     }
 });
 
-const userInfo = new UserInfo(profileName, profileAbout);
+const userInfo = new UserInfo(profileName, profileAbout, userAvatar);
 const popupImage = new PopupWithImage("popup__imageZoom-container");
+const section = new Section({ renderer: render }, postsList)
 
 
 // добавление лайка в DOM
@@ -113,6 +114,18 @@ function delCardHandler(cardId, evt) {
         })
 }
 
+function createCard(item) {
+    const cardElement = new Card(item.name, item.link, item.owner._id, myId, item._id, item.likes, '.posts__post', {
+        delLikeHandler, putLikeHandler, delCardHandler,
+
+        openZoomHandler: (name, link) => {
+            popupImage.open(name, link)
+
+        }
+    })
+  return cardElement.createNewPost()
+}
+
 // селекторы попапов
 const validObj = {
     formSelector: '.popup__person-information',
@@ -132,33 +145,18 @@ Promise.all([api.getInformationAbout(), api.getInitialCards()])
     .then((data) => {
         editNameInput.textContent = data[0].name
         editAboutInput.textContent = data[0].about
-        profileName.textContent = data[0].name
-        profileAbout.textContent = data[0].about
-        userAvatar.src = data[0].avatar
         avatarLinkInput.value = ''
-        myId = data[0]._id
+        userInfo.setUserInfo(data[0])
+        myId = userInfo.getUserId()
         const items = []
         data[1].forEach((item) => {
-            const post = new Card(item.name, item.link, item.owner._id, myId, item._id, item.likes, '.posts__post', {
-                delLikeHandler, putLikeHandler, delCardHandler,
-
-                openZoomHandler: (name, link) => {
-                    popupImage.open(name, link)
-
-                }
-            })
-            items.push(post.createNewPost())
+            items.push(createCard(item))
         })
-        const section = new Section({ items: items, renderer: render }, postsList)
-        section.renderAll()
+        section.renderAll(items)
     })
     .catch((error) => {
         console.log(error);
     })
-
-
-const defaultValidate = new FormValidator(validObj)
-defaultValidate.enableValidation()
 
 // изменение надписи кнопки при загрузке
 function renderLoading(isLoading, button) {
@@ -171,22 +169,14 @@ function renderLoading(isLoading, button) {
 }
 
 
+
 // добавление новой карточки
 function addCardHandler(obj) {
     const button = popupAddPost.querySelector('.button-save');
     renderLoading(true, button)
-    const cardName = postNameInput.value
-    const cardLink = postLinkInput.value
-
-    api.postCard(cardName, cardLink)
+    api.postCard(postNameInput.value, postLinkInput.value)
         .then((res) => {
-            const post = new Card(res.name, res.link, res.owner._id, myId, res._id, res.likes, '.posts__post', {
-                delLikeHandler, putLikeHandler, delCardHandler, openZoomHandler: (name, link) => {
-                    popupImage.open(name, link)
-                }
-            })
-            const section = new Section({}, postsList)
-            section.addItem(post.createNewPost(), false)
+            section.prependItem(createCard(res))
             popupPostForm.close()
             popupPostFormValidate.resetForm()
         })
@@ -223,10 +213,9 @@ function editProfileHandler() {
 function patchAvatarHandler() {
     const button = popupAvatar.querySelector('.button-save');
     renderLoading(true, button)
-    const avatarLink = avatarLinkInput.value
-    api.postUserAvatar(avatarLink)
-        .then(() => {
-            userAvatar.src = avatarLink;
+    api.postUserAvatar(avatarLinkInput.value)
+        .then((res) => {
+            userInfo.setUserInfo(res)
             popupAvatarForm.close()
             popupAvatarFormValidate.resetForm()
         })
@@ -242,9 +231,12 @@ const popupEditForm = new PopupWithForm("popup__profileEdit-container", editProf
 const popupAvatarForm = new PopupWithForm("popup__patchAvatar-container", patchAvatarHandler);
 const popupPostForm = new PopupWithForm("popup__addPost-container", addCardHandler);
 
-const popupEditFormValidate = new FormValidator(validObj, popupEditor)
-const popupAvatarFormValidate = new FormValidator(validObj, popupAvatar)
-const popupPostFormValidate = new FormValidator(validObj, popupAddPost)
+const popupEditFormValidate = new FormValidator(validObj, popupEditor.querySelector(validObj.formSelector))
+const popupAvatarFormValidate = new FormValidator(validObj, popupAvatar.querySelector(validObj.formSelector))
+const popupPostFormValidate = new FormValidator(validObj, popupAddPost.querySelector(validObj.formSelector))
+popupEditFormValidate.enableValidation()
+popupAvatarFormValidate.enableValidation()
+popupPostFormValidate.enableValidation()
 
 
 popupAddPostOpenButton.addEventListener("click", () => {
