@@ -5,6 +5,7 @@ export default class FormValidator {
         this._inputList = this._popupForm.querySelectorAll(this.validObj.inputSelector)
         this._inputListArray = Array.from(this._inputList)
         this._submitButton = this._popupForm.querySelector(this.validObj.submitButtonSelector)
+        this._errorList = this._popupForm.querySelectorAll(this.validObj.errorSpanSelector)
     }
 
     _showInputError = (inputElement, errorMessage) => {
@@ -73,9 +74,7 @@ export default class FormValidator {
     }
     
     resetForm = () => {
-        const errorsList = this._popupForm.querySelectorAll(this.validObj.errorSpanSelector)
-    
-        errorsList.forEach((errorElement) => {
+        this._errorList.forEach((errorElement) => {
             errorElement.classList.remove(this.validObj.errorClass)
         })
         this._inputList.forEach((errorInput) => {
