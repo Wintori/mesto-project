@@ -47,7 +47,7 @@ const api = new Api({
     }
 });
 
-const userInfo = new UserInfo(profileName, profileAbout, userAvatar);
+const userInfo = new UserInfo(profileName, profileAbout, userAvatar, api);
 const popupImage = new PopupWithImage("popup__imageZoom-container");
 const section = new Section({ renderer: render }, postsList)
 
@@ -141,13 +141,15 @@ function render(item) {
     postsList.append(item)
 }
 
-Promise.all([api.getInformationAbout(), api.getInitialCards()])
+Promise.all([userInfo.getUserInfo(), api.getInitialCards()])
     .then((data) => {
         editNameInput.textContent = data[0].name
         editAboutInput.textContent = data[0].about
         avatarLinkInput.value = ''
+
         userInfo.setUserInfo(data[0])
         myId = userInfo.getUserId()
+
         const items = []
         data[1].forEach((item) => {
             items.push(createCard(item))
@@ -194,18 +196,16 @@ function editProfileHandler() {
     renderLoading(true, button)
     const editName = editNameInput.value;
     const editAbout = editAboutInput.value;
-
-    api.postUserInformation(editName, editAbout)
-        .then((res) => {
-            userInfo.setUserInfo(res)
-            popupEditForm.close()
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-        .finally(() => {
-            renderLoading(false, button);
-        });
+    userInfo.setUserInfo({name: editName, about: editAbout})
+    .then(() => {
+        popupEditForm.close()
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+    .finally(() => {
+        renderLoading(false, button);
+    });
 }
 
 
@@ -213,18 +213,17 @@ function editProfileHandler() {
 function patchAvatarHandler() {
     const button = popupAvatar.querySelector('.button-save');
     renderLoading(true, button)
-    api.postUserAvatar(avatarLinkInput.value)
-        .then((res) => {
-            userInfo.setUserInfo(res)
-            popupAvatarForm.close()
-            popupAvatarFormValidate.resetForm()
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-        .finally(() => {
-            renderLoading(false, button);
-        });
+    userInfo.setUserAvatar(avatarLinkInput.value)
+    .then(() => {
+        popupAvatarForm.close()
+        popupAvatarFormValidate.resetForm()
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+    .finally(() => {
+        renderLoading(false, button);
+    });
 }
 
 const popupEditForm = new PopupWithForm("popup__profileEdit-container", editProfileHandler);
@@ -246,9 +245,10 @@ popupAddPostOpenButton.addEventListener("click", () => {
 
 popupEditProfileOpenButton.addEventListener("click", () => {
     popupEditForm.open()
-    const obj = userInfo.getUserInfo()
-    editNameInput.value = obj.name
-    editAboutInput.value = obj.about
+    userInfo.getUserInfo().then(obj => {
+        editNameInput.value = obj.name
+        editAboutInput.value = obj.about
+    })
     popupEditFormValidate.resetForm()
 })
 
