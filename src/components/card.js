@@ -1,119 +1,99 @@
 import {
-    postTemplate,
+    postTemplate
 } from "./utils.js"
 
-import {
-    deleteCard,
-    putLike,
-    deleteLike,
-} from "./api.js"
+export default class Card {
+    constructor(name, link, ownerId, myId, cardId, likes, selector, {delLikeHandler, putLikeHandler, delCardHandler, openZoomHandler}) {
+        this.name = name,
+        this.link = link,
+        this.ownerId = ownerId,
+        this.myId = myId,
+        this.cardId = cardId,
+        this.likes = likes,
+        this.selector = selector,
+        this._delLikeHandler = delLikeHandler,
+        this._putLikeHandler = putLikeHandler,
+        this._delCardHandler = delCardHandler,
+        this._openZoomHandler = openZoomHandler
 
-function addDomLike(obj, likeCount, likeContainer) {
-    if (obj.likes.length == 1) {
-        likeCount.style.display = "block"
-        likeContainer.style.padding = "22px 0 0 0"
-        likeCount.textContent = obj.likes.length;
-    } else {
-        likeCount.textContent = obj.likes.length
+        this.post = postTemplate.querySelector(this.selector).cloneNode(true)
+        this.postImage = this.post.querySelector(".posts__image")
+        this.buttonTrash = this.post.querySelector(".button-trash")
+        this.likeCount = this.post.querySelector(".posts__like-count")
+        this.likeContainer = this.post.querySelector(".posts__like-container")
+        this.buttonLike = this.post.querySelector(".button-like")
     }
-}
 
-function delDomLike(obj, likeCount, likeContainer) {
-    if (obj.likes.length == 0) {
-        likeCount.style.display = "none"
-        likeContainer.style.padding = "30px 0 0 0"
-    } else {
-        likeCount.textContent = obj.likes.length
+   
+
+    // проверка, стоял ли уже наш лайк у карточки
+    _checkActiveLike() {
+        this.likes.forEach(element => {
+            if (this.myId == element._id) {
+                this.buttonLike.classList.add("button-like_active")
+            }
+        });
     }
-}
 
-function delDomCard (evt) {
-    evt.target.closest(".posts__post").remove()
-}
-
-function delLikeHandler(cardId, evt, likeCount, likeContainer) {
-    deleteLike(cardId)
-        .then((res) => {
-            evt.target.classList.remove("button-like_active")
-            delDomLike(res, likeCount, likeContainer)
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-}
-
-function putLikeHandler(cardId, evt,  likeCount, likeContainer) {
-    putLike(cardId)
-        .then((res) => {
-            evt.target.classList.add("button-like_active")
-            addDomLike(res, likeCount, likeContainer)
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-}
-
-
-
-function delCardHandler(cardId, evt) {
-    deleteCard(cardId)
-        .then(() => {
-            delDomCard(evt)
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-}
-
-function createNewPost(postName, imageLink, ownerId, myId, cardId, likes, openZoomPopup) {
-    const post = postTemplate.querySelector('.posts__post').cloneNode(true)
-    const postImage = post.querySelector(".posts__image")
-    const buttonTrash = post.querySelector(".button-trash")
-    const likeCount = post.querySelector(".posts__like-count")
-    const likeContainer = post.querySelector(".posts__like-container")
-    const buttonLike = post.querySelector(".button-like")
-
-
-    likes.forEach(element => {
-        if (myId == element._id) {
-            buttonLike.classList.add("button-like_active")
+    // проверка, если карточка не наша, убираем иконку удаления карточки
+    _checkCardOwner() {
+        if (this.myId !== this.ownerId) {
+            this.buttonTrash.classList.add("button-trash_disabled")
         }
-    });
-
-
-
-    if (myId !== ownerId) {
-        buttonTrash.classList.add("button-trash_disabled")
     }
 
-    postImage.src = imageLink
-    post.querySelector(".posts__title").textContent = postName
-
-    postImage.alt = postName
-
-    if (likes.length !== 0) {
-        likeCount.textContent = likes.length
-    }
-    else {
-        likeCount.style.display = "none"
-        likeContainer.style.padding = "30px 0 0 0"
+    // добавление данных карточки в DOM
+    _addDomCardInfo() {
+        this.postImage.src = this.link
+        this.post.querySelector(".posts__title").textContent = this.name
+        this.postImage.alt = this.name
     }
 
-
-    buttonLike.addEventListener("click", (evt) => {
-        if (evt.target.classList.contains("button-like_active")) {
-            delLikeHandler(cardId, evt, likeCount, likeContainer)
-        } else {
-            putLikeHandler(cardId, evt, likeCount, likeContainer)
+    _changeLikeVisibility() {
+        if (this.likes.length !== 0) {
+            this.likeCount.textContent = this.likes.length
         }
-    })
+        else {
+            this.likeCount.style.display = "none"
+            this.likeContainer.style.padding = "30px 0 0 0"
+        }
+    }
 
-    buttonTrash.addEventListener("click", (evt) => {
-        delCardHandler(cardId, evt)
-    })
-    postImage.addEventListener("click", openZoomPopup)
-    return post
+    // создание новой карточки
+    createNewPost() {
+        
+    
+    // функция проверки лайка
+        this._checkActiveLike()
+    
+    
+    // функция проверки владельца карточки
+        this._checkCardOwner()
+
+    // добавление данных карточки в DOM
+        this._addDomCardInfo()
+    
+    // изменения вида карточки в DOM, если лайков нет, или больше 0
+        this._changeLikeVisibility()
+    
+    // слушатель кнопки лайк (поставить/удалить лайк)
+        this.buttonLike.addEventListener("click", (evt) => {
+            if (evt.target.classList.contains("button-like_active")) {
+                this._delLikeHandler(this.cardId, evt, this.likeCount, this.likeContainer)
+            } else {
+                this._putLikeHandler(this.cardId, evt, this.likeCount, this.likeContainer)
+            }
+        })
+    
+    // слушатель кнопки удалить (удаление карточки)
+        this.buttonTrash.addEventListener("click", (evt) => {
+            this._delCardHandler(this.cardId, evt)
+        })
+
+    // слушатель на фотографию (открытие попап зума при нажатии на картинку)
+        this.postImage.addEventListener("click", () => {this._openZoomHandler(this.name, this.link) })
+
+    // возвращаем готовую карточку
+        return this.post
+    }
 }
-
-
-export { createNewPost }
